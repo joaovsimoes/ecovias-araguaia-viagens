@@ -118,7 +118,7 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
 <div class="shell">
 
 <main class="main">
-<header class="topbar"><div><div class="eyebrow" id="topEyebrow">CENTRAL DE VIAGENS / SOLICITAÇÕES</div><strong id="topTitle">Solicitar viagem</strong></div><div class="topbar-actions"><button class="btn ghost" id="headerHomeBtn" type="button">Início</button><button class="btn ghost" id="headerAdminBtn" type="button">Administração</button><div class="pill"><span class="env-dot"></span>Ambiente de demonstração</div></div></header>
+<header class="topbar"><div><div class="eyebrow" id="topEyebrow">CENTRAL DE VIAGENS / SOLICITAÇÕES</div><strong id="topTitle">Solicitar viagem</strong></div><div class="topbar-actions"><button class="btn ghost" id="headerHomeBtn" type="button">Início</button><button class="btn ghost" id="headerAdminBtn" type="button">Administração</button></div></header>
 <div class="content">
 <section id="homeView">
 <div class="clean-home card">
@@ -426,13 +426,13 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
 
   $('lookupForm').onsubmit=async e=>{
     e.preventDefault();const code=$('lookupCode').value.trim().toUpperCase();
-    try{const api=await cloud();const item=await api.lookupOwnRequest(code);
-      $('lookupResult').innerHTML=item?`<div class="record"><div class="record-top"><strong>${esc(item.codigo)}</strong><span class="status ${statusClass(item.status)}">${esc(item.status)}</span></div><p>${esc(item.tipo)} · ${esc(item.nome)} · ${esc(dt(item.criadoEm))}</p>${item.notaAdmin?`<p><b>Retorno da equipe:</b> ${esc(item.notaAdmin)}</p>`:''}</div>`:'<div class="record">Não encontramos um pedido com esse código nesta sessão. Peça auxílio à equipe responsável.</div>';
-    }catch(error){$('lookupResult').textContent='Não foi possível consultar este pedido. O acompanhamento pelo código está disponível para a sessão que enviou a solicitação.';}
+    try{const api=await cloud();const item=await api.lookupPublicStatus(code);
+      $('lookupResult').innerHTML=item?`<div class="record"><div class="record-top"><strong>${esc(item.codigo)}</strong><span class="status ${statusClass(item.status)}">${esc(item.status)}</span></div><p>Atualizado em ${esc(dt(item.atualizadoEm))}</p>${item.retorno?`<p><b>Retorno da equipe:</b> ${esc(item.retorno)}</p>`:''}</div>`:'<div class="record">Não encontramos andamento para esse código. Confira o número ou procure a equipe responsável.</div>';
+    }catch(error){$('lookupResult').textContent='Não foi possível consultar este pedido agora. Tente novamente em instantes.';}
   };
   $('loginForm').onsubmit=async e=>{
     e.preventDefault();const button=e.currentTarget.querySelector('[type="submit"]');button.disabled=true;
-    try{const api=await cloud();await api.adminLogin($('adminUser').value.trim(),$('adminPass').value);adminAuthed=true;cloudRequests=await api.listRequests();$('adminPass').value='';renderAdmin();showAdminSection('requests');notify('Acesso administrativo liberado.');}
+    try{const api=await cloud();await api.adminLogin($('adminUser').value.trim(),$('adminPass').value);adminAuthed=true;cloudRequests=await api.listRequests();try{await api.syncPublicStatuses(cloudRequests)}catch(error){notify('A sincronização de pedidos antigos falhou: '+explain(error))}$('adminPass').value='';renderAdmin();showAdminSection('requests');notify('Acesso administrativo liberado.');}
     catch(error){adminAuthed=false;cloudRequests=[];renderAdmin();notify(explain(error));}
     finally{button.disabled=false;}
   };
