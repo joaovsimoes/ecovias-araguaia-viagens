@@ -20,8 +20,8 @@ O GitHub Actions verifica a sintaxe automaticamente. O deploy do Hosting está b
 
 1. Em **Authentication → Sign-in method** habilite **E-mail/senha** para administradores e **Anônimo** para colaboradores que enviarão solicitações sem login. O formulário administrativo continuará pedindo apenas **usuário e senha**.
 2. Em **Firestore Database**, confirme a criação do banco.
-3. **Primeiro administrador, sem enviar a senha a ninguém:** Authentication → Users → Add user. Para o nome de usuário `admin`, use o alias interno `admin@ecovias-araguaia-viagens.invalid` e uma senha forte escolhida no próprio Console. O alias é apenas um identificador interno do Firebase Auth, não um endereço para recuperação por e-mail.
-4. Copie o **UID** dessa conta no Console. Em Firestore, crie a coleção `admins`, documento com ID igual ao UID e campos: `username` (string) = `admin`, `role` (string) = `admin`, `active` (boolean) = `true`. **Nunca permita autoconcessão de administrador via cliente.**
+3. **Primeiro administrador, sem enviar a senha a ninguém:** Authentication → Users → Add user. Para o nome de usuário `july.dezani`, use o alias interno `july.dezani@ecovias-araguaia-viagens.invalid` e uma senha forte escolhida no próprio Console. O alias é apenas um identificador interno do Firebase Auth, não um endereço para recuperação por e-mail.
+4. Copie o **UID** dessa conta no Console. Em Firestore, crie a coleção `admins`, documento com ID igual ao UID e campos: `username` (string) = `july.dezani`, `role` (string) = `admin`, `active` (boolean) = `true`. **Nunca permita autoconcessão de administrador via cliente.**
 5. Revise e publique as regras de `staging/firestore.rules` **no ambiente de homologação**. As regras existentes `firestore.rules` permanecem com acesso negado até validação. Teste primeiro com dados fictícios e contas sem acesso.
 6. Confirme os testes: anônimo envia sem poder listar/ver pedidos de outros usuários; administrador com perfil ativo lista/edita; usuário sem perfil não acessa ADM; campos salvos são compartilhados entre dispositivos; logout bloqueia acesso; confirmação e status funcionam conforme limites descritos abaixo.
 
