@@ -533,10 +533,10 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
   renderRequestCustomFields();
   renderFieldManager();
   setType('Avião');show('home');
-  (async()=>{
+  window.addEventListener('firebasePortalReady',async()=>{
     try{const api=await cloud();const config=await api.loadConfig();cloudConfigs=config.baseConfigs||{};cloudFields=Array.isArray(config.customFields)?config.customFields:[];renderRequestCustomFields();renderFieldManager();applyStaticFieldConfigs();setType(currentType);}
     catch(error){notify('O portal ainda não conseguiu se conectar aos serviços online. Confira a configuração do Firebase.');}
-  })();
+  },{once:true});
 })();
 </script>
 <script type="module" src="./firebase-client.js"></script>
