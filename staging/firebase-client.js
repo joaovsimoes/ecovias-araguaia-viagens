@@ -77,3 +77,4 @@ window.firebasePortal={
     });
   }
 };
+window.dispatchEvent(new Event('firebasePortalReady'));
