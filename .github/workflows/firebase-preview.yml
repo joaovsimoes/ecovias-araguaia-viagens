@@ -23,12 +23,26 @@ jobs:
           html=Path('staging/index.html').read_text(encoding='utf-8')
           assert 'Demo@2026' not in html and 'localStorage' not in html
           assert 'firebase-client.js' in html
+          assert 'Ambiente de demonstração' not in html
+          assert 'lookupPublicStatus(code)' in html
+          assert 'lookupOwnRequest' not in html
+          client=Path('staging/firebase-client.js').read_text(encoding='utf-8')
+          assert "doc(db,'andamentos'" in client and 'writeBatch(db)' in client
+          assert Path('firestore.rules').read_text(encoding='utf-8') == Path('staging/firestore.rules').read_text(encoding='utf-8')
           Path('/tmp/ecovias-stage.js').write_text(html.split('<script>',1)[1].split('</script>',1)[0],encoding='utf-8')
           PY
           node --check /tmp/ecovias-stage.js
           node --check staging/firebase-client.js
           cp staging/index.html public/index.html
           cp staging/firebase-client.js public/firebase-client.js
+      - name: Aplicar regras de acesso seguro no Firestore
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/ecovias-firebase-service-account.json"
+          chmod 600 "$RUNNER_TEMP/ecovias-firebase-service-account.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/ecovias-firebase-service-account.json"
+          npx --yes firebase-tools@latest deploy --only firestore:rules --project ecovias-araguaia-viagens --non-interactive
       - name: Enviar somente ao canal temporário de testes
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
