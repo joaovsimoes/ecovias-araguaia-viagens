@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#142b49" name="theme-color"/>
+<title>Portal de Viagens | Solicitações</title>
+<style>
+    :root{--navy:#185c3b;--blue:#2f7d55;--sky:#79c28e;--soft:#dbeedf;--paper:#f5f7f4;--white:#fff;--ink:#163325;--muted:#617569;--line:#d8e4d8;--green:#16846d;--red:#b84c56;--amber:#8c7b22;--shadow:0 18px 42px rgba(22,51,37,.10)}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55}a{color:var(--blue)}[hidden]{display:none!important}*:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+    .shell{min-height:100vh;display:grid;grid-template-columns:250px minmax(0,1fr)}.sidebar{background:var(--navy);color:#dce9f7;padding:28px 17px;display:flex;flex-direction:column;gap:26px}.brand{padding:0 13px;display:flex;align-items:center;gap:12px}.logo{background:linear-gradient(135deg,#64b5e5,#d7ecfa);width:42px;height:42px;border-radius:14px;display:grid;place-items:center;color:var(--navy);font-size:23px;flex:none}.brand strong{display:block;color:#fff;font-size:18px;line-height:1.15;letter-spacing:-.4px}.brand small{font-size:11px;letter-spacing:1.8px;color:#a7c7e7;text-transform:uppercase}.menu-label{padding:0 13px;color:#89a7c5;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;font-weight:800}.nav{width:100%;border:0;background:transparent;color:#c8d8e9;display:flex;align-items:center;gap:12px;padding:13px;border-radius:12px;text-align:left;font-weight:650}.nav:hover,.nav.active{background:#2b527d;color:#fff}.nav span:first-child{font-size:18px;width:24px;text-align:center}.side-foot{margin-top:auto;padding:15px 12px;border-top:1px solid #38516c;color:#a9bdd1;font-size:12px}.main{min-width:0}.topbar{height:76px;display:flex;justify-content:space-between;align-items:center;padding:0 38px;background:#fff;border-bottom:1px solid var(--line);gap:16px}.topbar .eyebrow{color:var(--muted);font-size:12px}.topbar strong{display:block;font-size:17px}.pill{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:99px;background:#e9f5fc;color:var(--blue);font-size:12px;font-weight:750;white-space:nowrap}.dot{width:7px;height:7px;background:var(--green);border-radius:99px}.content{max-width:1250px;margin:auto;padding:32px 38px 58px}.welcome{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:26px}.kicker{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--blue);font-weight:850}.welcome h1{font-size:clamp(25px,3vw,34px);line-height:1.15;letter-spacing:-1.1px;margin:7px 0 9px}.welcome p{color:var(--muted);margin:0;max-width:610px}.welcome-icon{background:linear-gradient(135deg,#d3ebfb,#edf7fd);font-size:48px;border-radius:24px;width:116px;height:90px;display:grid;place-items:center;transform:rotate(-4deg)}.step-bar{display:flex;gap:8px;align-items:center;margin-bottom:20px;color:#728394;font-size:12px;font-weight:700}.step{height:6px;background:var(--line);width:36px;border-radius:99px}.step.on{background:var(--sky)}.card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.request-card{overflow:hidden}.card-head{padding:25px 28px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px}.card-head h2{font-size:18px;letter-spacing:-.35px;margin:0 0 3px}.card-head p{margin:0;color:var(--muted);font-size:12px}.service-tabs{padding:19px 27px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;background:#f9fbfe}.tab{padding:16px 10px;border:1px solid var(--line);border-radius:14px;background:#fff;display:flex;gap:10px;justify-content:center;align-items:center;font-weight:750;color:var(--blue);transition:.18s}.tab i{font-style:normal;font-size:21px}.tab:hover{border-color:#8fc9ec}.tab.active{background:var(--navy);border-color:var(--navy);color:#fff;box-shadow:0 8px 22px rgba(20,43,73,.18)}.form-body{padding:29px}.section-head{display:flex;gap:11px;align-items:center;margin:0 0 19px}.number{width:30px;height:30px;border-radius:10px;background:#e7f4fc;color:var(--blue);display:grid;place-items:center;font-weight:900}.section-head h3{font-size:15px;margin:0}.section-head small{display:block;color:var(--muted);font-size:12px;font-weight:400}.fields{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:17px 16px}.field{grid-column:span 4;min-width:0}.field.half{grid-column:span 6}.field.third{grid-column:span 4}.field.quarter{grid-column:span 3}.field.full{grid-column:span 12}.field.span8{grid-column:span 8}.field label{display:block;font-weight:750;font-size:12px;margin:0 0 7px}.req{color:#c35b60}.field input,.field select,.field textarea,.lookup input,.searchbox input,.login input,.admin-field select,.admin-field textarea{border:1px solid #cddae7;width:100%;border-radius:10px;background:#fff;color:var(--ink);padding:11px 12px;min-height:44px;outline:none}.field textarea,.admin-field textarea{resize:vertical;min-height:105px}.field input:focus,.field select:focus,.field textarea:focus,.lookup input:focus,.searchbox input:focus,.login input:focus{border-color:var(--sky);box-shadow:0 0 0 3px #e4f3fd}.help{display:block;color:var(--muted);font-size:11px;margin-top:5px}.divider{height:1px;background:var(--line);margin:27px 0}.checkbox-line{display:flex;align-items:center;gap:9px;margin:16px 0 0;color:var(--blue);font-weight:700;font-size:13px}.checkbox-line input{accent-color:var(--blue);height:16px;width:16px}.notice{background:#ecf7fe;border:1px solid #cce8f9;padding:13px 15px;border-radius:12px;color:#335d7f;font-size:12px;margin-top:20px}.form-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding:22px 28px;background:#fcfdff}.form-footer p{color:var(--muted);margin:0;font-size:12px;max-width:440px}.btn{border:none;border-radius:11px;min-height:43px;padding:11px 18px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px}.btn.primary{background:var(--navy);color:#fff}.btn.primary:hover{background:var(--blue)}.btn.light{background:#e9f3fb;color:var(--blue)}.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--blue)}.btn.danger{background:#fff1f2;color:var(--red)}.below-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:20px}.mini{padding:24px}.mini h3{margin:0 0 6px;font-size:16px}.mini p{color:var(--muted);font-size:12px;margin:0 0 14px}.lookup{display:flex;gap:9px}.lookup input{flex:1;min-width:0;text-transform:uppercase}.lookup-result{margin-top:14px}.feature{display:flex;gap:12px;align-items:flex-start}.feature-icon{background:#eaf5fc;color:var(--blue);width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:12px;font-size:18px}.feature strong{font-size:13px}.feature p{margin:4px 0 0}.feature+.feature{margin-top:17px}.success{text-align:center;padding:46px 30px}.success-mark{width:65px;height:65px;display:grid;place-items:center;background:#e3f5ed;border-radius:50%;margin:0 auto 18px;color:var(--green);font-size:30px}.success h2{font-size:24px;margin:0 0 8px}.success p{color:var(--muted);margin:0 auto 18px;max-width:490px}.code-big{display:inline-block;border:1px dashed #8ebddf;border-radius:13px;padding:14px 22px;letter-spacing:2px;color:var(--navy);background:#f3faff;font-size:24px;font-weight:900;margin-bottom:16px}.success-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}.status{display:inline-block;padding:5px 9px;font-size:11px;font-weight:850;border-radius:99px;background:#e7f1fc;color:#28578c;white-space:nowrap}.status.analisando{background:#fff4df;color:#926518}.status.aprovada{background:#e6f5ed;color:#167855}.status.concluida{background:#e8f2ed;color:#17664f}.status.recusada{background:#fdebec;color:#b04451}.small{color:var(--muted);font-size:12px}.record{border:1px solid var(--line);padding:14px;border-radius:12px;background:#fff}.record strong{font-size:14px}.record p{font-size:12px;color:var(--muted);margin:7px 0}.record-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.record+.record{margin-top:10px}.admin-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:21px 0}.stat{padding:20px}.stat .small{display:block}.stat b{font-size:29px;display:block;line-height:1.4}.admin-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:21px}.searchbox{flex:1;min-width:220px}.searchbox input{width:100%}.admin-tools select{padding:11px 12px;border:1px solid var(--line);border-radius:10px;min-height:44px;min-width:130px;background:#fff}.admin-list{padding:0 20px 20px}.admin-item{border:1px solid var(--line);border-radius:14px;margin-top:12px;overflow:hidden}.admin-row{display:flex;gap:15px;align-items:center;padding:18px}.type-icon{width:47px;height:47px;background:#edf5fb;border-radius:14px;display:grid;place-items:center;font-size:23px;flex:none}.admin-row-main{flex:1;min-width:0}.admin-row-main strong{font-size:14px}.admin-row-main p{margin:4px 0 0;color:var(--muted);font-size:12px;overflow-wrap:anywhere}.row-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.detail{border-top:1px solid var(--line);padding:20px;background:#fbfdff}.detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.detail-cell{font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}.detail-cell b{display:block;font-size:11px;color:var(--muted);margin-bottom:2px}.admin-edit{display:grid;grid-template-columns:220px minmax(0,1fr) auto;gap:12px;margin-top:18px;align-items:end}.admin-field label{display:block;font-weight:750;font-size:12px;margin-bottom:6px}.admin-field textarea{min-height:44px}.empty{padding:35px;text-align:center;color:var(--muted)}.login-wrap{max-width:460px;margin:30px auto}.login{padding:33px}.login h2{margin:0 0 8px;font-size:24px}.login p{color:var(--muted);margin:0 0 25px}.login label{display:block;font-size:12px;font-weight:800;margin:17px 0 7px}.login .btn{width:100%;margin-top:22px}.demo-warning{padding:12px;border-radius:12px;background:#fff6e8;color:#815d27;border:1px solid #f1dfc0;font-size:12px;margin-top:20px}.toast{position:fixed;right:22px;bottom:22px;background:var(--navy);color:#fff;padding:14px 18px;border-radius:12px;max-width:min(380px,calc(100vw - 30px));box-shadow:var(--shadow);z-index:3}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:1000px){.shell{grid-template-columns:80px minmax(0,1fr)}.sidebar{padding:24px 12px}.brand{padding:0;justify-content:center}.brand .words,.menu-label,.nav .nav-name,.side-foot{display:none}.nav{justify-content:center;padding:12px}.nav span:first-child{font-size:23px}.content{padding:25px}.topbar{padding:0 25px}.admin-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:700px){.shell{display:block}.sidebar{height:66px;flex-direction:row;align-items:center;padding:9px 15px;gap:8px}.brand .words{display:block}.brand{margin-right:auto}.logo{width:37px;height:37px;font-size:20px}.brand strong{font-size:15px}.brand small{font-size:9px}.nav{width:39px;height:39px;padding:7px}.nav span:first-child{font-size:20px}.topbar{height:62px;padding:0 17px}.topbar strong{font-size:14px}.topbar .pill{font-size:10px;padding:7px}.content{padding:23px 14px 40px}.welcome-icon{display:none}.service-tabs{grid-template-columns:repeat(2,minmax(0,1fr));padding:15px;gap:8px}.tab{padding:13px 7px;font-size:12px}.form-body{padding:21px 16px}.field,.field.half,.field.third,.field.quarter,.field.span8{grid-column:span 12}.fields{gap:14px}.card-head{padding:20px 16px}.form-footer{padding:18px 16px;align-items:stretch;flex-direction:column}.form-footer .btn{width:100%}.below-grid{grid-template-columns:1fr}.admin-grid{grid-template-columns:repeat(2,1fr)}.admin-tools{padding:14px}.admin-tools>*{flex:1}.admin-row{flex-wrap:wrap}.row-actions{width:100%;justify-content:space-between}.detail-grid{grid-template-columns:1fr 1fr}.admin-edit{grid-template-columns:1fr}.admin-edit .btn{width:100%}.lookup{flex-wrap:wrap}.lookup .btn{width:100%}}
+    @media(max-width:390px){.detail-grid{grid-template-columns:1fr}.pill{display:none}}
+  
+/* Portal de Viagens — enterprise visual system */
+:root{--navy:#142b49;--blue:#2b527d;--sky:#64b5e5;--paper:#f5f7fa;--ink:#1c2d42;--muted:#748295;--line:#e3e8ef;--shadow:0 4px 24px rgba(24,43,67,.035)}
+html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:13px;line-height:1.5;background:var(--paper);color:var(--ink)}
+.shell{grid-template-columns:232px minmax(0,1fr)}
+.sidebar{position:sticky;top:0;height:100vh;min-height:630px;background:#142b49;gap:35px;padding:29px 14px 24px;border-right:1px solid #183551}
+.brand{gap:12px;padding:0 10px 26px;border-bottom:1px solid rgba(255,255,255,.11)}
+.logo{width:40px;height:40px;border:1px solid rgba(148,197,236,.33);background:#24466a;color:#d2edff;border-radius:10px;transform:none}
+.brand strong{font-weight:750;font-size:19px;letter-spacing:-.65px;color:white}.brand small{font-size:10px;letter-spacing:.6px;color:#b1c5da;margin-top:4px;text-transform:none}
+.menu-label{padding:0 13px 10px;font-size:10px;letter-spacing:1.25px;font-weight:700;color:#90a8c1}
+.nav{font-size:12.5px;min-height:44px;font-weight:570;padding:12px 14px;border-radius:8px;gap:11px;color:#c3d4e5;border:1px solid transparent;position:relative;transition:background .18s}
+.nav span:first-child{font-size:unset;display:flex;align-items:center;justify-content:center;width:20px;color:#a3bdd5}
+.nav:hover{background:#1a3859;color:white}.nav.active{background:#27496d;border-color:#35587a;color:white;box-shadow:none}.nav.active::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;background:#82c5ee;border-radius:4px}.nav.active span:first-child{color:#acdfff}
+.side-foot{font-size:11px;line-height:1.6;color:#a3b9ce;padding:20px 11px 0;border-color:rgba(255,255,255,.12)}.side-foot-label{font-size:9px;letter-spacing:1.2px;font-weight:750;color:#c8d9e9;margin-bottom:7px}
+.topbar{height:72px;padding:0 42px;background:#fff;border-bottom:1px solid #e5eaf0}.topbar .eyebrow{font-size:9.5px;font-weight:700;letter-spacing:1.15px;color:#7e8b99}.topbar strong{font-size:14px;font-weight:720;margin-top:3px;color:#23364e}
+.topbar .pill{border-radius:6px;border:1px solid #e4eaf0;background:#fafbfd;color:#65778a;padding:8px 11px;font-size:11px;font-weight:560}.env-dot{width:6px;height:6px;border-radius:50%;background:#e3ad53}
+.content{max-width:1540px;margin:auto;padding:34px 42px 70px}.welcome{margin:0 0 23px;align-items:center}.kicker{font-size:10px;color:#50769c;letter-spacing:1.28px;font-weight:760}.welcome h1{font-size:28px;line-height:1.2;letter-spacing:-.8px;font-weight:735;margin:8px 0 9px}.welcome p{font-size:13px;color:#738296;max-width:750px}.welcome-icon,.step-bar{display:none}
+.request-workspace{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:20px;align-items:start}
+.card{box-shadow:var(--shadow);border:1px solid #e2e8ef;border-radius:10px;background:#fff}.request-card{min-width:0}
+.card-head{padding:23px 26px 22px;border-bottom:1px solid #e9edf2}.card-head h2{font-size:16px;letter-spacing:-.35px;font-weight:720;margin:0 0 5px}.card-head p{font-size:12px;color:#7a8797}.card-head .pill{background:#f1f5f9;border:1px solid #e7ecf1;color:#62778e;font-size:9px;font-weight:800;border-radius:5px;letter-spacing:.7px;padding:6px 8px}
+.service-tabs{background:#fff;padding:21px 26px 22px;gap:10px;border-bottom:1px solid #edf0f3}.tab{min-width:0;min-height:76px;padding:13px 8px;flex-direction:column;gap:7px;border:1px solid #dfe6ee;border-radius:8px;color:#495e74;background:#fff;font-size:12px;font-weight:650;box-shadow:none;transition:border-color .16s, background .16s,color .16s}
+.tab i{display:flex;align-items:center;justify-content:center;color:#65819e;font-size:initial}.tab i svg{width:21px;height:21px}.tab:hover{border-color:#a4c2db;background:#f8fbff}.tab.active{box-shadow:inset 0 0 0 1px #2b527d;background:#eef4fa;border-color:#2b527d;color:#173554}.tab.active i{color:#2b527d}
+.form-body{padding:25px 26px 30px}.section-head{gap:11px;margin:0 0 17px}.number{width:25px;height:25px;border-radius:6px;background:#edf3f9;color:#325a7d;font-size:11px;font-weight:760}.section-head h3{font-size:13px;letter-spacing:-.13px;font-weight:750}.section-head small{margin-top:2px;font-size:11px;color:#8693a1}.fields{gap:17px 15px}.field label,.admin-field label{font-size:11.5px;color:#394a5c;margin-bottom:7px;font-weight:680}.req{color:#ba4e4e}.field input,.field select,.field textarea,.lookup input,.searchbox input,.login input,.admin-field select,.admin-field textarea,.admin-tools select{border-radius:6px;background:white;border:1px solid #dbe2e9;color:#243449;min-height:43px;padding:10px 12px;font-size:12.5px;box-shadow:none;outline:none}
+.field input::placeholder,.field textarea::placeholder,.lookup input::placeholder,.searchbox input::placeholder{color:#a0aab4}.field input:focus,.field select:focus,.field textarea:focus,.lookup input:focus,.searchbox input:focus,.login input:focus,.admin-field select:focus,.admin-field textarea:focus{border-color:#649dca;box-shadow:0 0 0 3px rgba(100,181,229,.15)}.field textarea{min-height:102px}.help{color:#919eab}.divider{background:#ecf0f4;margin:28px 0 25px}.notice{background:#f7f9fb;border:1px solid #e4eaf0;border-radius:7px;color:#6c7c8e;font-size:11px;line-height:1.65;margin-top:25px;padding:11px 13px}.notice strong{color:#445c70}
+.form-footer{padding:19px 26px;background:#fcfdfe}.form-footer p{font-size:11px;color:#8794a1}.btn{min-height:42px;padding:10px 15px;font-size:12px;font-weight:680;border-radius:6px;transition:background .17s}.btn.primary{background:#234a73}.btn.primary:hover{background:#142b49}.btn.light{background:#edf3f8;border:1px solid #e0eaf3;color:#294f71}.btn.light:hover{background:#e4eef7}.btn.ghost{border-radius:6px;background:white;color:#385775}.form-footer .btn{min-width:190px}.form-footer .btn svg{margin-left:7px}
+.below-grid{display:flex;flex-direction:column;gap:16px;margin:0;min-width:0}.mini{padding:22px}.mini h3{font-size:14px;font-weight:750;margin:0 0 7px;letter-spacing:-.1px}.mini p{font-size:11.5px;line-height:1.65;color:#7e8c9a;margin:0 0 17px}.lookup{display:flex;flex-direction:column;gap:9px}.lookup input{font-size:11px;letter-spacing:.35px;width:100%;flex:initial}.lookup .btn{width:100%}.aside-eyebrow{color:#6085aa;font-size:9px;font-weight:800;letter-spacing:1.2px;margin-bottom:9px}.guidance-item{display:flex;align-items:flex-start;gap:10px;padding:13px 0;border-top:1px solid #edf0f4}.guidance-item:first-of-type{margin-top:12px}.guidance-marker{font-size:10px;display:grid;place-items:center;flex:0 0 25px;height:25px;background:#eff4f8;color:#557ca0;font-weight:750;border-radius:5px}.guidance-item strong{display:block;font-size:11.5px;font-weight:720}.guidance-item p{margin:3px 0 0;font-size:11px}.lookup-result{margin-top:13px;overflow-wrap:anywhere}
+.success{padding:55px 20px}.success-mark{background:#e9f6ef;border-radius:10px;width:50px;height:50px;font-size:25px}.success h2{font-size:23px}.code-big{font-size:20px;letter-spacing:1px;border-radius:6px;background:#f7fafc;border-color:#d7e3ed}
+#adminDashboard>div:first-child{margin-bottom:17px}.admin-grid{margin:0 0 18px;gap:14px}.stat{padding:21px 20px}.stat .small{font-size:11.5px;color:#8090a0}.stat b{font-size:29px;margin-top:11px;letter-spacing:-.8px;font-weight:720}.stat:first-child{border-top:3px solid #2b527d}.stat:nth-child(2){border-top:3px solid #7fa7cb}.stat:nth-child(3){border-top:3px solid #d5a75a}.stat:nth-child(4){border-top:3px solid #6b9d89}
+.admin-tools{padding:18px 22px;border-bottom:1px solid #e9eef3;gap:9px}.admin-tools select{min-height:42px;min-width:147px}.searchbox{min-width:180px}.admin-list{padding:0}.admin-item{border:0;border-radius:0;border-bottom:1px solid #e8edf3;margin:0}.admin-item:last-child{border-bottom:0}.admin-row{padding:18px 22px;gap:14px}.type-icon{width:39px;height:39px;border:1px solid #e4edf5;background:#f2f6fa;border-radius:7px;color:#4d769a}.type-icon svg{height:19px;width:19px}.admin-row-main strong{font-weight:700;font-size:12.5px}.admin-row-main p{font-size:11.5px}.row-actions .btn{white-space:nowrap}.status{border-radius:5px;font-size:10px;padding:5px 8px;font-weight:730}.detail{background:#fbfcfe;padding:22px}.detail-grid{gap:14px 20px}.detail-cell{font-size:12px}.detail-cell b{font-size:10.5px;color:#8291a0;margin-bottom:5px}.admin-edit{grid-template-columns:190px minmax(0,1fr) auto;padding-top:16px;border-top:1px solid #e5ebf1}.admin-edit .btn{white-space:nowrap}
+.login-wrap{max-width:500px;margin:20px auto}.login{padding:37px}.login h2{font-size:20px;letter-spacing:-.4px}.login p{font-size:12px;margin-bottom:21px}.login label{font-size:11.5px}.login .btn{margin-top:24px}.demo-warning{border-radius:6px;border:1px solid #e3e9ef;background:#f8fafc;color:#647488;line-height:1.8;font-size:11px}.demo-warning strong{color:#385570}.demo-warning span{color:#8190a0}.toast{border-radius:7px;font-size:12px;box-shadow:0 12px 30px rgba(20,43,73,.16)}
+@media(max-width:1210px){.request-workspace{grid-template-columns:minmax(0,1fr) 245px}.content{padding:30px 30px 65px}.topbar{padding:0 30px}}
+@media(max-width:1050px){.shell{grid-template-columns:70px minmax(0,1fr)}.sidebar{padding:25px 10px}.brand{padding:0 0 22px;justify-content:center}.brand .words,.side-foot,.menu-label,.nav .nav-name{display:none}.nav{justify-content:center;padding:10px}.nav span:first-child{width:auto}.request-workspace{grid-template-columns:minmax(0,1fr) 235px}.content{padding:26px 24px 60px}.topbar{padding:0 24px}}
+@media(max-width:820px){.request-workspace{grid-template-columns:1fr}.below-grid{display:grid;grid-template-columns:1fr 1fr}.service-tabs{padding:16px}.form-body{padding:22px}.admin-grid{grid-template-columns:repeat(2,1fr)}.admin-edit{grid-template-columns:1fr}}
+@media(max-width:700px){.shell{display:block}.sidebar{position:relative;top:auto;height:60px;min-height:0;padding:8px 14px;display:flex;flex-direction:row;gap:14px;align-items:center}.brand{padding:0;margin-right:auto;border:0;justify-content:flex-start}.brand .words{display:block}.brand strong{font-size:15px}.brand small{font-size:9px}.logo{width:34px;height:34px}.logo svg{width:20px;height:20px}.sidebar>div:nth-child(2){display:flex;gap:5px}.nav{width:37px;height:37px;padding:7px}.nav.active::before{display:none}.nav svg{width:18px;height:18px}.topbar{height:60px;padding:0 17px}.topbar .pill{font-size:9px;padding:6px}.topbar .eyebrow{font-size:9px}.content{padding:22px 13px 50px}.welcome{margin-bottom:20px}.welcome h1{font-size:25px}.welcome p{font-size:12px}.card-head{padding:19px 17px}.service-tabs{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:12px}.tab{min-height:67px;font-size:10px;gap:4px;padding:10px 2px}.tab i svg{height:18px;width:18px}.form-body{padding:20px 16px 24px}.fields{gap:13px}.field,.field.half,.field.third,.field.quarter,.field.span8{grid-column:span 12}.section-head{margin-bottom:16px}.form-footer{padding:17px;flex-direction:column;align-items:stretch}.form-footer .btn{width:100%}.below-grid{grid-template-columns:1fr}.admin-grid{grid-template-columns:repeat(2,1fr)}.admin-tools{padding:14px}.admin-tools>*{flex:1}.admin-row{flex-wrap:wrap}.row-actions{width:100%;justify-content:space-between}.detail-grid{grid-template-columns:1fr 1fr}.admin-edit{grid-template-columns:1fr}.admin-edit .btn{width:100%}.lookup{flex-direction:column}}
+@media(max-width:390px){.topbar .pill{display:none}.detail-grid{grid-template-columns:1fr}.service-tabs{gap:4px}.tab{font-size:9px}.brand .words small{display:none}}
+.card-head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.small-btn{min-height:38px;padding:9px 14px;font-size:12px}.home-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.home-card{overflow:hidden}.service-grid-home{padding:28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.service-card{border:1px solid var(--line);background:#fff;border-radius:18px;padding:22px 20px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:8px;color:var(--ink);transition:transform .18s, box-shadow .18s,border-color .18s}.service-card:hover{transform:translateY(-2px);border-color:#9bcdee;box-shadow:0 14px 30px rgba(20,43,73,.08)}.service-card strong{font-size:18px;letter-spacing:-.3px}.service-card small{color:var(--muted);font-size:13px;line-height:1.45}.service-card-icon{width:54px;height:54px;border-radius:16px;background:#eaf4fc;display:grid;place-items:center;font-size:27px;margin-bottom:6px}.service-card.admin-entry{background:linear-gradient(180deg,#f8fbfe 0%,#eef6fc 100%)}.home-side{display:grid;gap:18px}.home-info{height:fit-content}.modal-backdrop{position:fixed;inset:0;background:rgba(16,31,51,.5);display:grid;place-items:center;padding:20px;z-index:10}.modal-card{width:min(100%,690px);background:#fff;border-radius:24px;box-shadow:0 28px 55px rgba(16,31,51,.18);border:1px solid #dbe7f2}.modal-backdrop[hidden]{display:none!important}
+@media(max-width:980px){.home-layout{grid-template-columns:1fr}.service-grid-home{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:700px){.home-layout{grid-template-columns:1fr}.service-grid-home{grid-template-columns:1fr;padding:18px}.card-head-actions{width:100%;justify-content:space-between}.modal-card{border-radius:18px}.success{padding:36px 20px}}@media(max-width:430px){.card-head-actions{justify-content:flex-start}.code-big{font-size:19px;padding:12px 16px;letter-spacing:1px}}
+/* Ecovias Araguaia style landing page */
+.sidebar{background:linear-gradient(180deg,#184f37 0%,#123b28 100%)}
+.nav:hover,.nav.active{background:#2f7d55;color:#fff}
+.logo{background:linear-gradient(135deg,#79c28e,#dff4e3);color:var(--navy)}
+.pill{background:#e7f5ea;color:#2f7d55}.dot,.env-dot{width:7px;height:7px;background:#2f7d55;border-radius:99px;display:inline-block}
+.notice{background:#eef8f0;border-color:#d3ebd8;color:#365f44}
+.landing-shell{min-height:calc(100vh - 140px);display:grid;grid-template-columns:1.35fr .95fr;background:#f4f5f2;border-radius:30px;overflow:hidden;border:1px solid #dbe6db;box-shadow:var(--shadow)}
+.landing-hero{position:relative;padding:44px 52px;background:linear-gradient(145deg,#1f6a46 0%,#2d865a 58%,#55a16e 100%);color:#fff;display:flex;flex-direction:column;justify-content:space-between;min-height:640px;overflow:hidden}
+.landing-brand{position:relative;z-index:2;display:flex;align-items:center;gap:14px}.landing-logo{width:58px;height:58px;border-radius:18px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:28px;font-weight:800;backdrop-filter:blur(4px)}.landing-brand-text strong{display:block;font-size:31px;letter-spacing:-1px;line-height:1.05}.landing-brand-text small{display:block;font-size:13px;letter-spacing:1.7px;text-transform:uppercase;color:rgba(255,255,255,.82)}
+.landing-copy{position:relative;z-index:2;max-width:650px}.landing-kicker{display:inline-block;margin-bottom:18px;font-size:15px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#e6f6ea}.landing-copy h1{font-size:clamp(40px,5vw,70px);line-height:1.02;letter-spacing:-2.2px;margin:0 0 18px;max-width:760px}.landing-copy p{font-size:18px;line-height:1.55;max-width:660px;margin:0;color:rgba(255,255,255,.92)}
+.landing-tags{position:relative;z-index:2;display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.landing-tags span{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.12);color:#fff;font-weight:700;font-size:14px;backdrop-filter:blur(4px)}
+.landing-foot{position:relative;z-index:2;color:rgba(255,255,255,.8);font-size:14px}.landing-shape{position:absolute;border-radius:999px;border:2px solid rgba(255,255,255,.08)}.landing-shape-one{width:310px;height:310px;top:110px;right:160px}.landing-shape-two{width:520px;height:520px;right:-120px;bottom:-170px;background:radial-gradient(circle at 30% 30%, rgba(206,243,216,.28), rgba(255,255,255,.06));border:none}
+.landing-panel{background:#f7f8f4;display:grid;place-items:center;padding:36px}.landing-panel-card{width:min(100%,540px);background:#fff;border:1px solid #d9e4d9;border-radius:34px;padding:44px 42px;box-shadow:0 18px 40px rgba(22,51,37,.08)}.landing-panel-card h2{margin:0 0 10px;font-size:40px;line-height:1.05;letter-spacing:-1.6px;color:#184f37}.landing-panel-card>p{margin:0 0 28px;color:#5f7266;font-size:17px;line-height:1.45}
+.landing-action-list{display:flex;flex-direction:column;gap:12px}.landing-action{width:100%;border:1px solid #d7e3d7;border-radius:18px;background:#f8fbf8;display:flex;align-items:center;gap:14px;padding:14px 16px;text-align:left;transition:border-color .18s, background .18s, transform .18s, box-shadow .18s}.landing-action:hover{background:#eef8f0;border-color:#8fc49b;transform:translateY(-1px);box-shadow:0 10px 24px rgba(22,51,37,.08)}.landing-action-icon{width:52px;height:52px;border-radius:16px;background:#e7f5ea;display:grid;place-items:center;font-size:25px;flex:none}.landing-action span strong{display:block;color:#184f37;font-size:18px;letter-spacing:-.3px}.landing-action span small{display:block;color:#66796d;font-size:13px;margin-top:3px}.landing-action.admin{background:linear-gradient(180deg,#1d6a46 0%, #2f7d55 100%);border-color:#2f7d55}.landing-action.admin .landing-action-icon{background:rgba(255,255,255,.15)}.landing-action.admin span strong,.landing-action.admin span small{color:#fff}
+.landing-note{margin-top:24px;background:#f1f4ef;border-radius:18px;padding:16px 18px;color:#5e7065;font-size:14px;line-height:1.5}
+@media(max-width:1200px){.landing-shell{grid-template-columns:1fr}.landing-hero{min-height:480px}.landing-panel{padding:30px}}
+@media(max-width:700px){.landing-shell{border-radius:22px}.landing-hero{padding:28px 22px;min-height:auto}.landing-brand-text strong{font-size:24px}.landing-copy h1{font-size:38px;max-width:none}.landing-copy p{font-size:16px}.landing-tags{gap:8px}.landing-tags span{font-size:12px;padding:10px 14px}.landing-panel{padding:18px}.landing-panel-card{padding:28px 22px;border-radius:24px}.landing-panel-card h2{font-size:30px}.landing-action{padding:12px}.landing-foot{margin-top:34px}.landing-shape-one{width:220px;height:220px;right:40px;top:130px}.landing-shape-two{width:320px;height:320px;right:-100px;bottom:-100px}}
+
+
+/* Homepage simplificada */
+.clean-home{padding:34px 34px 28px;border-radius:28px;background:linear-gradient(180deg,#ffffff 0%,#fbfcfa 100%);border:1px solid #d7e4d8;box-shadow:var(--shadow)}
+.clean-home-header{max-width:720px;margin-bottom:28px}.clean-home-badge{display:inline-flex;align-items:center;justify-content:center;background:#e8f4ea;color:#2f7d55;border-radius:999px;padding:8px 14px;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:16px}.clean-home-header h1{margin:0 0 10px;font-size:42px;line-height:1.05;letter-spacing:-1.4px;color:#184f37}.clean-home-header p{margin:0;color:#637568;font-size:16px;line-height:1.55;max-width:650px}
+.clean-home-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.clean-home-card{border:1px solid #d9e4d9;background:#fff;border-radius:22px;padding:22px 18px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:10px;min-height:190px;transition:transform .18s,border-color .18s,box-shadow .18s;background-image:linear-gradient(180deg,#fff,#fbfdfb)}.clean-home-card:hover{transform:translateY(-2px);border-color:#8fc49b;box-shadow:0 14px 28px rgba(22,51,37,.08)}.clean-home-icon{width:52px;height:52px;border-radius:16px;background:#e8f4ea;display:grid;place-items:center;font-size:24px}.clean-home-card strong{font-size:18px;letter-spacing:-.3px;color:#184f37}.clean-home-card small{font-size:13px;line-height:1.5;color:#67796c}.clean-home-card.admin{background:linear-gradient(180deg,#1c6945 0%,#2f7d55 100%);border-color:#2f7d55}.clean-home-card.admin .clean-home-icon{background:rgba(255,255,255,.16)}.clean-home-card.admin strong,.clean-home-card.admin small{color:#fff}
+.clean-home-footer{margin-top:20px;padding-top:18px;border-top:1px solid #e4ece4}.clean-home-note{font-size:13px;color:#65766a}
+@media(max-width:1200px){.clean-home-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:820px){.clean-home{padding:24px 20px}.clean-home-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.clean-home-header h1{font-size:34px}}
+@media(max-width:560px){.clean-home-grid{grid-template-columns:1fr}.clean-home-card{min-height:auto}.clean-home-header h1{font-size:29px}.clean-home-header p{font-size:14px}}
+
+
+.clean-home-icon{color:#2f7d55}.clean-home-card.admin .clean-home-icon{color:#fff}
+.clean-home-icon svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+
+/* Layout simplificado sem menu lateral */
+.shell{display:block;min-height:100vh}.main{min-width:0}.topbar{position:sticky;top:0;z-index:5;background:#fff;padding:0 28px}.content{max-width:1280px;padding:28px 28px 58px}.topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.topbar-actions .btn{min-height:40px;padding:9px 14px;font-size:12px}.topbar-actions .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--blue)}.topbar-actions .btn.primary{background:var(--blue)}@media(max-width:700px){.topbar{height:auto;min-height:62px;padding:12px 16px;align-items:flex-start}.content{padding:18px 14px 40px}.topbar-actions{width:100%}.topbar-actions .btn{flex:1}}
+
+
+/* Administração: edição integral de solicitações */
+.edit-modal-card{width:min(100%,880px);max-height:min(94vh,940px);display:flex;flex-direction:column;min-height:0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 26px 80px rgba(12,40,25,.25)}
+.edit-modal-header{flex:none;padding:25px 30px 19px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:1px solid var(--line)}
+.edit-modal-header h2{font-size:24px;letter-spacing:-.7px;margin:5px 0}.edit-modal-header p{font-size:12px;color:var(--muted);margin:0}.edit-kicker{color:var(--blue);font-size:10px;letter-spacing:1.8px;font-weight:850}
+.edit-close{flex:none;border:0;background:#f0f5ef;color:var(--navy);border-radius:10px;width:34px;height:34px;font-size:25px;line-height:1}
+.edit-close:hover{background:#e0eee1}.edit-dialog-form{display:flex;flex-direction:column;min-height:0;flex:1}.edit-modal-body{overflow-y:auto;overscroll-behavior:contain;padding:24px 30px 28px}.edit-service-fields{margin-top:15px}
+.edit-group-label{display:flex;align-items:center;gap:12px;margin-bottom:18px}.edit-group-label span{background:#e8f4ea;color:#216d43;width:32px;height:32px;display:grid;place-items:center;font-size:11px;font-weight:800;border-radius:10px}.edit-group-label strong{font-size:15px}.edit-divider{height:1px;background:var(--line);margin:25px 0}
+.edit-modal-footer{flex:none;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid var(--line);padding:16px 30px;background:#fbfdfb}.edit-error{border:1px solid #f0c3c3;background:#fff2f2;color:#a63c3c;border-radius:9px;padding:12px;margin-top:18px;font-size:13px}
+.edit-dialog-form .field input,.edit-dialog-form .field select,.edit-dialog-form .field textarea{background:#fff}.edit-dialog-form .fields{gap:14px 15px}.row-actions .edit-trigger{background:var(--navy);color:#fff}.row-actions .edit-trigger:hover{background:var(--blue)}
+@media(max-width:700px){.edit-modal-card{max-height:96vh;border-radius:14px}.edit-modal-header{padding:19px}.edit-modal-body{padding:20px 19px}.edit-modal-footer{padding:15px 19px}.edit-modal-footer .btn{flex:1}.edit-modal-header h2{font-size:21px}}
+
+.field select,.admin-tools select,.admin-field select,.field-config-form select{appearance:none;-webkit-appearance:none;-moz-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23395166' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:14px;padding-right:42px}
+.field-manager-card{margin-top:18px}.field-manager-wrap{padding:22px}.field-config-form{padding:0 0 22px;border-bottom:1px solid var(--line);margin-bottom:18px}.field-config-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.custom-field-list{display:grid;gap:12px}.custom-field-item{border:1px solid var(--line);border-radius:14px;padding:15px 16px;background:#fbfdfc;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.custom-field-item strong{display:block;font-size:14px}.custom-field-item p{margin:4px 0 0;color:var(--muted);font-size:12px}.custom-field-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.meta-chip{display:inline-flex;align-items:center;border-radius:999px;background:#eef6f1;color:#2f7d55;padding:5px 9px;font-size:11px;font-weight:800}.custom-field-actions{display:flex;gap:8px;flex-wrap:wrap}.custom-field-actions .btn{min-height:36px;padding:8px 12px;font-size:12px}.empty-fields{padding:18px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);background:#fcfdfc}
+@media(max-width:700px){.field-manager-wrap{padding:16px}.custom-field-item{flex-direction:column}.custom-field-actions{width:100%}.custom-field-actions .btn{flex:1}}
+
+
+/* Administracao: campos configuraveis ficam em aba autenticada, nunca junto ao login. */
+.admin-section-tabs{display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--line);margin:18px 0 20px;padding:0 2px 8px}
+.admin-section-tab{border:1px solid transparent;background:transparent;color:var(--muted);font-weight:750;padding:11px 18px;border-radius:9px;min-height:44px}
+.admin-section-tab:hover{background:#edf5ef;color:var(--navy)}
+.admin-section-tab.active{background:#e7f4eb;border-color:#cce4d3;color:var(--navy)}
+#adminFieldsPane .field-manager-card{margin-top:0}
+@media(max-width:520px){.admin-section-tabs{gap:6px}.admin-section-tab{flex:1;padding:10px 8px;font-size:12px}}
+
+.custom-field-item.hidden-field{opacity:.78;background:#f7f8f8}.meta-chip.hidden-chip{background:#f2f3f4;color:#60707a}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<main class="main">
+<header class="topbar"><div><div class="eyebrow" id="topEyebrow">CENTRAL DE VIAGENS / SOLICITAÇÕES</div><strong id="topTitle">Solicitar viagem</strong></div><div class="topbar-actions"><button class="btn ghost" id="headerHomeBtn" type="button">Início</button><button class="btn ghost" id="headerAdminBtn" type="button">Administração</button><div class="pill"><span class="env-dot"></span>Ambiente de demonstração</div></div></header>
+<div class="content">
+<section id="homeView">
+<div class="clean-home card">
+  <div class="clean-home-header">
+    <div class="clean-home-badge">ECOVIAS ARAGUAIA</div>
+    <h1>Portal de Viagens</h1>
+    <p>Selecione o tipo de solicitação que deseja abrir. O portal foi organizado para deixar o acesso mais simples, direto e profissional.</p>
+  </div>
+
+  <div class="clean-home-grid">
+    <button class="clean-home-card" data-open-service="Avião" type="button">
+      <span class="clean-home-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-8l-7-4V2.5a1.5 1.5 0 0 0-3 0V9l-5 3v3l5-1.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L10 19v-5.5l7 1.5v-3z"></path></svg></span>
+      <strong>Avião</strong>
+      <small>Solicitação de passagens e deslocamentos aéreos.</small>
+    </button>
+
+    <button class="clean-home-card" data-open-service="Hospedagem" type="button">
+      <span class="clean-home-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20V10"></path><path d="M3 14h18v6H3z"></path><path d="M5 14V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6"></path><path d="M7 10h4"></path><path d="M13 10h4"></path></svg></span>
+      <strong>Hospedagem</strong>
+      <small>Reserva de hotel e período de estadia.</small>
+    </button>
+
+    <button class="clean-home-card" data-open-service="Locação" type="button">
+      <span class="clean-home-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 11 1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"></path><path d="M3 11h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><circle cx="7.5" cy="16.5" r="1.5"></circle><circle cx="16.5" cy="16.5" r="1.5"></circle></svg></span>
+      <strong>Locação</strong>
+      <small>Solicitação de veículo e informações de retirada.</small>
+    </button>
+
+    <button class="clean-home-card" data-open-service="Rodoviário" type="button">
+      <span class="clean-home-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="16" rx="3"></rect><path d="M5 8h14"></path><path d="M8 19v2"></path><path d="M16 19v2"></path><path d="M8 12h2"></path><path d="M14 12h2"></path></svg></span>
+      <strong>Rodoviário</strong>
+      <small>Viagens terrestres com origem, destino e período.</small>
+    </button>
+
+    <button class="clean-home-card admin" data-open-admin="true" type="button">
+      <span class="clean-home-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"></path><path d="M3 9h18"></path></svg></span>
+      <strong>Administração</strong>
+      <small>Acompanhe e atualize as solicitações recebidas.</small>
+    </button>
+  </div>
+
+  <div class="clean-home-footer">
+    <div class="clean-home-note"><strong>Acesso administrativo:</strong> área disponível para usuários autorizados.</div>
+  </div>
+</div>
+</section>
+
+<section id="requestView" hidden>
+<div class="welcome"><div><span class="kicker">SERVIÇOS CORPORATIVOS  /  VIAGENS</span><h1>Nova solicitação de viagem</h1><p>Preencha os dados da solicitação e encaminhe para análise da equipe responsável.</p></div></div>
+
+<div class="request-workspace"><div class="card request-card" id="formCard">
+<div class="card-head"><div><h2>Dados da solicitação</h2><p>Selecione o serviço e informe as informações necessárias.</p></div><div class="card-head-actions"><button class="btn ghost small-btn" id="backHome" type="button">Voltar para início</button><span class="pill">PREENCHIMENTO</span></div></div>
+<div aria-label="Tipo de serviço" class="service-tabs" role="tablist">
+<button aria-selected="true" class="tab active" data-type="Avião" role="tab" type="button"><i><svg aria-hidden="true" fill="none" height="21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="21" xmlns="http://www.w3.org/2000/svg"><path d="M17 21v-8l-7-4V2.5a1.5 1.5 0 0 0-3 0V9l-5 3v3l5-1.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L10 19v-5.5l7 1.5v-3l-7-4V2.5"></path></svg></i><span>Avião</span></button>
+<button aria-selected="false" class="tab" data-type="Hospedagem" role="tab" type="button"><i><svg aria-hidden="true" fill="none" height="21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="21" xmlns="http://www.w3.org/2000/svg"><path d="M3 18v-7M3 14h18v4H3zM5 14V9a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5M3 18v2M21 18v2M7 11h4M13 11h4"></path></svg></i><span>Hospedagem</span></button>
+<button aria-selected="false" class="tab" data-type="Locação" role="tab" type="button"><i><svg aria-hidden="true" fill="none" height="21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="21" xmlns="http://www.w3.org/2000/svg"><path d="m5 11 1.5-5h11L19 11M3 11h18v7H3zM5 18v2M19 18v2M7 14h2M15 14h2M5 11 3 9M19 11l2-2"></path></svg></i><span>Locação</span></button>
+<button aria-selected="false" class="tab" data-type="Rodoviário" role="tab" type="button"><i><svg aria-hidden="true" fill="none" height="21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="21" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="3" width="14" x="5" y="2"></rect><path d="M5 9h14M5 15h14M8 20v2M16 20v2M8 17h1M15 17h1"></path></svg></i><span>Rodoviário</span></button>
+</div>
+<form id="travelForm">
+<div class="form-body">
+<div class="section-head"><span class="number">1</span><div><h3>Dados do solicitante</h3><small>Identificação e contato</small></div></div>
+<div class="fields">
+<div class="field half"><label for="name">Nome completo <span class="req">*</span></label><input autocomplete="name" id="name" maxlength="100" name="nome" placeholder="Nome e sobrenome" required=""/></div>
+<div class="field half"><label for="email">E-mail corporativo <span class="req">*</span></label><input autocomplete="email" id="email" maxlength="120" name="email" placeholder="seu.email@empresa.com.br" required="" type="email"/></div>
+<div class="field half"><label for="department">Área / Departamento <span class="req">*</span></label><input id="department" maxlength="90" name="area" placeholder="Informe sua área" required=""/></div>
+<div class="field half"><label for="phone">Telefone para contato</label><input id="phone" maxlength="25" name="telefone" placeholder="(00) 00000-0000" type="tel"/></div>
+</div>
+<div class="divider"></div>
+<div class="section-head"><span class="number">2</span><div><h3 id="travelSectionTitle">Dados do voo</h3><small id="travelSectionSubtitle">Conte-nos como será seu deslocamento.</small></div></div>
+<div class="fields" id="serviceFields"></div>
+<div class="divider"></div>
+<div class="section-head"><span class="number">3</span><div><h3>Justificativa da solicitação</h3><small>Informe o contexto e a finalidade da viagem.</small></div></div>
+<div class="fields">
+<div class="field half"><label for="purpose">Motivo da viagem <span class="req">*</span></label><select id="purpose" name="motivo" required=""><option value="">Selecione</option><option>Treinamento</option><option>Reunião</option><option>Evento</option><option>Visita técnica</option><option>Atendimento a cliente / fornecedor</option><option>Outro</option></select></div>
+<div class="field half"><label for="costCenter">Centro de custo / Projeto <span class="req">*</span></label><input id="costCenter" maxlength="90" name="centroCusto" placeholder="Informe o centro de custo" required=""/></div>
+<div class="field full"><label for="justification">Descrição da justificativa <span class="req">*</span></label><textarea id="justification" maxlength="1800" minlength="12" name="justificativa" placeholder="Informe o objetivo, a necessidade da viagem e o resultado esperado." required="" rows="4"></textarea><span class="help">Mínimo de 12 caracteres.</span></div>
+<div class="field full"><label for="extra">Observações adicionais</label><textarea id="extra" maxlength="900" name="observacoes" placeholder="Preferências, restrições de horário ou outras observações (opcional)." rows="2"></textarea></div>
+</div>
+<div id="customFieldsSection" hidden=""><div class="divider"></div><div class="section-head"><span class="number">4</span><div><h3>Campos adicionais</h3><small>Informações complementares configuradas pela administração.</small></div></div><div class="fields" id="customFieldsArea"></div></div>
+<div class="notice"><strong>Nota sobre a demonstração.</strong> Os registros são armazenados somente neste navegador. A publicação com acesso compartilhado depende de autenticação e banco de dados.</div>
+</div>
+<div class="form-footer"><p>Campos marcados com * são obrigatórios.</p><button class="btn primary" type="submit">Enviar solicitação <svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="17" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></button></div>
+</form>
+</div><div class="below-grid"><div class="card mini"><h3>Consultar solicitação</h3><p>Acompanhe o status usando o código do pedido.</p><form class="lookup" id="lookupForm"><label class="visually-hidden" for="lookupCode">Código da solicitação</label><input id="lookupCode" placeholder="VG-2026-XXXXX" required=""/><button class="btn light" type="submit">Consultar</button></form><div aria-live="polite" class="lookup-result" id="lookupResult"></div></div><div class="card mini"><div class="aside-eyebrow">ORIENTAÇÕES</div><h3>Antes de enviar</h3>
+<div class="guidance-item"><span class="guidance-marker">01</span><div><strong>Informe os dados</strong><p>Selecione o serviço e preencha os detalhes da viagem.</p></div></div>
+<div class="guidance-item"><span class="guidance-marker">02</span><div><strong>Justifique a necessidade</strong><p>Descreva o objetivo para facilitar a análise.</p></div></div>
+<div class="guidance-item"><span class="guidance-marker">03</span><div><strong>Acompanhe o pedido</strong><p>Utilize o código gerado após o envio.</p></div></div></div></div></div>
+
+
+</section>
+<section hidden="" id="adminView">
+<div class="welcome"><div><span class="kicker">CENTRAL DE VIAGENS  /  ADMINISTRAÇÃO</span><h1>Gestão de solicitações</h1><p>Visão consolidada dos pedidos recebidos e do andamento de cada solicitação.</p></div></div>
+<div class="card login-wrap" id="adminLogin"><form class="login" id="loginForm"><h2>Acesso administrativo</h2><p>Entre com as credenciais de demonstração para visualizar o painel.</p><label for="adminUser">Usuário</label><input autocomplete="username" id="adminUser" required="" type="text"/><label for="adminPass">Senha</label><input autocomplete="current-password" id="adminPass" required="" type="password"/><button class="btn primary" type="submit">Acessar solicitações</button><div class="demo-warning"><strong>Acesso de teste</strong><br/>Usuário: <code>admin</code>  ·  Senha: <code>Demo@2026</code><br/><span>Não utilize dados pessoais reais. Este protótipo não oferece autenticação segura.</span></div></form></div>
+<div hidden="" id="adminDashboard"><div style="display:flex;justify-content:flex-end"><button class="btn ghost" id="logout" type="button"><svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path></svg> Encerrar sessão</button></div><div class="admin-section-tabs" role="tablist" aria-label="Áreas da administração"><button class="admin-section-tab active" id="adminRequestsTab" type="button" role="tab" aria-selected="true" aria-controls="adminRequestsPane">Solicitações</button><button class="admin-section-tab" id="adminFieldsTab" type="button" role="tab" aria-selected="false" aria-controls="adminFieldsPane">Campos do formulário</button></div><div id="adminRequestsPane" role="tabpanel" aria-labelledby="adminRequestsTab"><div class="admin-grid"><div class="card stat"><span class="small">Total de solicitações</span><b id="statTotal">0</b></div><div class="card stat"><span class="small">Recebidas</span><b id="statReceived">0</b></div><div class="card stat"><span class="small">Em análise</span><b id="statAnalysis">0</b></div><div class="card stat"><span class="small">Aprovadas / concluídas</span><b id="statApproved">0</b></div></div><div class="card"><div class="card-head"><div><h2>Solicitações</h2><p>Consulte os detalhes e gerencie o andamento dos pedidos.</p></div><button class="btn light" id="exportCsv" type="button"><svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6M8 13h8M8 17h8"></path></svg> Exportar CSV</button></div><div class="admin-tools"><div class="searchbox"><label class="visually-hidden" for="adminSearch">Buscar solicitações</label><input id="adminSearch" placeholder="Buscar por código, nome, e-mail ou destino" type="search"/></div><label class="visually-hidden" for="filterType">Tipo</label><select id="filterType"><option value="">Todos os serviços</option><option>Avião</option><option>Hospedagem</option><option>Locação</option><option>Rodoviário</option></select><label class="visually-hidden" for="filterStatus">Status</label><select id="filterStatus"><option value="">Todos os status</option><option>Recebida</option><option>Em análise</option><option>Aprovada</option><option>Concluída</option><option>Recusada</option></select></div><div class="admin-list" id="adminList"></div></div></div><div id="adminFieldsPane" role="tabpanel" aria-labelledby="adminFieldsTab" hidden><div class="card field-manager-card"><div class="card-head"><div><h2>Campos do formulário</h2><p>Visualize todos os campos atuais do formulário e também crie campos complementares quando necessário.</p></div></div><div class="field-manager-wrap"><form class="field-config-form" id="fieldConfigForm"><input id="fieldConfigId" type="hidden"/><input id="fieldConfigKind" type="hidden" value="custom"/><div class="fields"><div class="field half"><label for="fieldConfigLabel">Nome do campo <span class="req">*</span></label><input id="fieldConfigLabel" maxlength="80" required type="text" placeholder="Ex.: Gestor aprovador"/></div><div class="field half"><label for="fieldConfigType">Tipo do campo <span class="req">*</span></label><select id="fieldConfigType" required><option value="text">Texto</option><option value="textarea">Texto longo</option><option value="number">Número</option><option value="date">Data</option><option value="select">Seleção</option></select></div><div class="field half"><label for="fieldConfigPlaceholder">Placeholder / apoio</label><input id="fieldConfigPlaceholder" maxlength="100" type="text" placeholder="Ex.: Informe o nome do gestor"/></div><div class="field half" id="fieldConfigOptionsWrap" hidden><label for="fieldConfigOptions">Opções <span class="req">*</span></label><input id="fieldConfigOptions" maxlength="300" type="text" placeholder="Separe por vírgula. Ex.: Sim, Não, A definir"/><span class="help">Utilize vírgula para separar as opções.</span></div><div class="field full"><label class="checkbox-line" style="margin-top:0"><input id="fieldConfigRequired" type="checkbox"/> Campo obrigatório</label></div></div><div class="field-config-actions"><button class="btn primary" type="submit">Salvar campo</button><button class="btn ghost" hidden id="fieldConfigCancel" type="button">Cancelar edição</button></div></form><div class="custom-field-list" id="customFieldList"></div></div></div></div></div>
+</section>
+</div>
+</main>
+</div>
+<div class="modal-backdrop" hidden id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+  <div class="modal-card">
+    <div class="success">
+      <div class="success-mark">✓</div>
+      <h2 id="successTitle">Solicitação registrada</h2>
+      <p>Guarde o código abaixo para acompanhar o andamento da solicitação. Este registro está disponível neste navegador.</p>
+      <div class="code-big" id="successCode"></div>
+      <div class="success-actions">
+        <button class="btn light" id="copyCode" type="button">Copiar código</button>
+        <button class="btn primary" id="newRequest" type="button">Nova solicitação</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop" id="editModal" hidden role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+  <div class="edit-modal-card">
+    <div class="edit-modal-header">
+      <div><span class="edit-kicker">ADMINISTRAÇÃO / SOLICITAÇÕES</span><h2 id="editModalTitle">Editar solicitação</h2><p>Protocolo <strong id="editCode"></strong> · As alterações serão salvas somente neste navegador.</p></div>
+      <button class="edit-close" id="closeEdit" type="button" aria-label="Fechar edição">×</button>
+    </div>
+    <form id="editForm" class="edit-dialog-form">
+      <div class="edit-modal-body">
+        <div class="edit-group-label"><span>01</span><strong>Dados do solicitante</strong></div>
+        <div class="fields">
+          <div class="field half"><label for="editName">Nome completo <span class="req">*</span></label><input id="editName" name="nome" maxlength="100" required></div>
+          <div class="field half"><label for="editEmail">E-mail corporativo <span class="req">*</span></label><input id="editEmail" type="email" name="email" maxlength="120" required></div>
+          <div class="field half"><label for="editArea">Área / Departamento <span class="req">*</span></label><input id="editArea" name="area" maxlength="90" required></div>
+          <div class="field half"><label for="editPhone">Telefone</label><input id="editPhone" type="tel" name="telefone" maxlength="25"></div>
+        </div>
+        <div class="edit-divider"></div>
+        <div class="edit-group-label"><span>02</span><strong>Informações da viagem</strong></div>
+        <div class="fields"><div class="field full"><label for="editType">Tipo de serviço <span class="req">*</span></label><select id="editType" name="tipo" required><option>Avião</option><option>Hospedagem</option><option>Locação</option><option>Rodoviário</option></select><small class="help">Ao trocar o serviço, os dados específicos do anterior serão substituídos.</small></div></div>
+        <div class="fields edit-service-fields" id="editServiceFields"></div>
+        <div class="edit-divider"></div>
+        <div class="edit-group-label"><span>03</span><strong>Justificativa</strong></div>
+        <div class="fields">
+          <div class="field half"><label for="editPurpose">Motivo da viagem <span class="req">*</span></label><select id="editPurpose" name="motivo" required><option value="">Selecione</option><option>Treinamento</option><option>Reunião</option><option>Evento</option><option>Visita técnica</option><option>Atendimento a cliente / fornecedor</option><option>Outro</option></select></div>
+          <div class="field half"><label for="editCost">Centro de custo / Projeto <span class="req">*</span></label><input id="editCost" name="centroCusto" maxlength="90" required></div>
+          <div class="field full"><label for="editJustification">Justificativa <span class="req">*</span></label><textarea id="editJustification" name="justificativa" minlength="12" maxlength="1800" required></textarea></div>
+          <div class="field full"><label for="editExtra">Observações adicionais</label><textarea id="editExtra" name="observacoes" maxlength="900"></textarea></div>
+        </div>
+        <div id="editCustomFieldsSection" hidden=""><div class="edit-divider"></div><div class="edit-group-label"><span>04</span><strong>Campos adicionais</strong></div><div class="fields" id="editCustomFieldsArea"></div></div>
+        <div class="edit-divider"></div>
+        <div class="edit-group-label"><span>05</span><strong>Gestão da solicitação</strong></div>
+        <div class="fields">
+          <div class="field half"><label for="editStatus">Status <span class="req">*</span></label><select id="editStatus" name="status" required><option>Recebida</option><option>Em análise</option><option>Aprovada</option><option>Concluída</option><option>Recusada</option></select></div>
+          <div class="field full"><label for="editNote">Retorno para o solicitante</label><textarea id="editNote" name="notaAdmin" maxlength="800" placeholder="Registre uma orientação ou atualização (opcional)"></textarea></div>
+        </div>
+        <div class="edit-error" id="editError" role="alert" hidden></div>
+      </div>
+      <div class="edit-modal-footer"><button class="btn ghost" id="cancelEdit" type="button">Cancelar</button><button class="btn primary" type="submit">Salvar alterações</button></div>
+    </form>
+  </div>
+</div>
+<div class="toast" hidden="" id="toast" role="status"></div>
+<script>
+(()=>{'use strict';
+  const STORE='portal_viagens_solicitacoes_demo_v1';
+  const FIELD_STORE='portal_viagens_campos_demo_v1';
+  const FIELD_CONFIG_STORE='portal_viagens_campos_config_demo_v1';
+  const types={
+    'Avião':{title:'Dados do voo',subtitle:'Ida e volta, horários e preferências de voo.',icon:'<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-8l-7-4V2.5a1.5 1.5 0 0 0-3 0V9l-5 3v3l5-1.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L10 19v-5.5l7 1.5v-3l-7-4V2.5"/></svg>',fields:`
+      <div class="field half"><label for="origin">Origem <span class="req">*</span></label><input id="origin" name="origem" required maxlength="100" placeholder="Cidade / Aeroporto"></div>
+      <div class="field half"><label for="destination">Destino <span class="req">*</span></label><input id="destination" name="destino" required maxlength="100" placeholder="Cidade / Aeroporto"></div>
+      <div class="field quarter"><label for="departure">Data da ida <span class="req">*</span></label><input id="departure" name="dataIda" type="date" required></div>
+      <div class="field quarter"><label for="return">Data da volta</label><input id="return" name="dataVolta" type="date"></div>
+      <div class="field quarter"><label for="departPeriod">Período preferido</label><select id="departPeriod" name="periodoIda"><option>Qualquer horário</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></div>
+      <div class="field quarter"><label for="flightClass">Classe</label><select id="flightClass" name="classe"><option>Econômica</option><option>Executiva</option></select></div>
+      <div class="field half"><label for="returnPeriod">Período preferido da volta</label><select id="returnPeriod" name="periodoVolta"><option>Qualquer horário</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></div>
+      <div class="field half"><label for="bags">Bagagem despachada?</label><select id="bags" name="bagagem"><option>Não</option><option>Sim</option><option>A definir</option></select></div>`},
+    'Hospedagem':{title:'Dados da hospedagem',subtitle:'Informe local, datas e quantidade de hóspedes.',icon:'<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-7M3 14h18v4H3zM5 14V9a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5M3 18v2M21 18v2M7 11h4M13 11h4"/></svg>',fields:`
+      <div class="field half"><label for="city">Cidade / Localidade <span class="req">*</span></label><input id="city" name="cidade" required maxlength="100" placeholder="Onde precisa se hospedar?"></div>
+      <div class="field half"><label for="hotel">Hotel de preferência</label><input id="hotel" name="hotelPreferido" maxlength="100" placeholder="Opcional"></div>
+      <div class="field third"><label for="checkin">Check-in <span class="req">*</span></label><input id="checkin" name="checkin" type="date" required></div>
+      <div class="field third"><label for="checkout">Check-out <span class="req">*</span></label><input id="checkout" name="checkout" type="date" required></div>
+      <div class="field third"><label for="guests">Quantidade de hóspedes <span class="req">*</span></label><input id="guests" name="hospedes" type="number" min="1" max="30" value="1" required></div>
+      <div class="field full"><label for="hotelLocation">Região / Endereço de referência</label><input id="hotelLocation" name="regiao" maxlength="150" placeholder="Próximo ao local do evento, unidade, cliente..."></div>`},
+    'Locação':{title:'Dados da locação',subtitle:'Informe retirada, devolução e preferência de veículo.',icon:'<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 11 1.5-5h11L19 11M3 11h18v7H3zM5 18v2M19 18v2M7 14h2M15 14h2M5 11 3 9M19 11l2-2"/></svg>',fields:`
+      <div class="field half"><label for="pickupCity">Local de retirada <span class="req">*</span></label><input id="pickupCity" name="retiradaLocal" required maxlength="130" placeholder="Cidade / Aeroporto / Endereço"></div>
+      <div class="field half"><label for="dropCity">Local de devolução <span class="req">*</span></label><input id="dropCity" name="devolucaoLocal" required maxlength="130" placeholder="Cidade / Aeroporto / Endereço"></div>
+      <div class="field quarter"><label for="pickupDate">Data da retirada <span class="req">*</span></label><input id="pickupDate" name="retiradaData" type="date" required></div>
+      <div class="field quarter"><label for="pickupTime">Horário de retirada</label><input id="pickupTime" name="retiradaHora" type="time"></div>
+      <div class="field quarter"><label for="dropDate">Data da devolução <span class="req">*</span></label><input id="dropDate" name="devolucaoData" type="date" required></div>
+      <div class="field quarter"><label for="dropTime">Horário de devolução</label><input id="dropTime" name="devolucaoHora" type="time"></div>
+      <div class="field half"><label for="carCategory">Categoria do veículo</label><select id="carCategory" name="categoria"><option>Econômico</option><option>Intermediário</option><option>SUV</option><option>Utilitário</option><option>A definir</option></select></div>
+      <div class="field half"><label for="carDriver">Condutor principal <span class="req">*</span></label><input id="carDriver" name="condutor" required maxlength="100" placeholder="Nome completo"></div>`},
+    'Rodoviário':{title:'Dados da passagem rodoviária',subtitle:'Origem, destino e preferências de embarque.',icon:'<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="18" rx="3"/><path d="M5 9h14M5 15h14M8 20v2M16 20v2M8 17h1M15 17h1"/></svg>',fields:`
+      <div class="field half"><label for="busOrigin">Origem <span class="req">*</span></label><input id="busOrigin" name="origem" required maxlength="100" placeholder="Cidade / Rodoviária"></div>
+      <div class="field half"><label for="busDest">Destino <span class="req">*</span></label><input id="busDest" name="destino" required maxlength="100" placeholder="Cidade / Rodoviária"></div>
+      <div class="field third"><label for="busDate">Data da ida <span class="req">*</span></label><input id="busDate" name="dataIda" type="date" required></div>
+      <div class="field third"><label for="busReturn">Data da volta</label><input id="busReturn" name="dataVolta" type="date"></div>
+      <div class="field third"><label for="busPeriod">Horário preferido</label><select id="busPeriod" name="periodo"><option>Qualquer horário</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></div>
+      <div class="field half"><label for="busClass">Tipo de passagem</label><select id="busClass" name="classe"><option>Convencional</option><option>Executivo</option><option>Leito</option><option>A definir</option></select></div>`}
+  };
+  const BASE_FIELD_DEFS=[
+    {key:'nome',name:'nome',label:'Nome completo',placeholder:'Nome e sobrenome',type:'text',required:true,scope:'static'},
+    {key:'email',name:'email',label:'E-mail corporativo',placeholder:'seu.email@empresa.com.br',type:'text',required:true,scope:'static'},
+    {key:'area',name:'area',label:'Área / Departamento',placeholder:'Informe sua área',type:'text',required:true,scope:'static'},
+    {key:'telefone',name:'telefone',label:'Telefone para contato',placeholder:'(00) 00000-0000',type:'text',required:false,scope:'static'},
+    {key:'motivo',name:'motivo',label:'Motivo da viagem',type:'select',required:true,scope:'static'},
+    {key:'centroCusto',name:'centroCusto',label:'Centro de custo / Projeto',placeholder:'Informe o centro de custo',type:'text',required:true,scope:'static'},
+    {key:'justificativa',name:'justificativa',label:'Descrição da justificativa',placeholder:'Informe o objetivo, a necessidade da viagem e o resultado esperado.',type:'textarea',required:true,scope:'static'},
+    {key:'observacoes',name:'observacoes',label:'Observações adicionais',placeholder:'Preferências, restrições de horário ou outras observações (opcional).',type:'textarea',required:false,scope:'static'},
+    {key:'aviao_origem',service:'Avião',name:'origem',label:'Origem',placeholder:'Cidade / Aeroporto',type:'text',required:true},
+    {key:'aviao_destino',service:'Avião',name:'destino',label:'Destino',placeholder:'Cidade / Aeroporto',type:'text',required:true},
+    {key:'aviao_dataIda',service:'Avião',name:'dataIda',label:'Data da ida',type:'date',required:true},
+    {key:'aviao_dataVolta',service:'Avião',name:'dataVolta',label:'Data da volta',type:'date',required:false},
+    {key:'aviao_periodoIda',service:'Avião',name:'periodoIda',label:'Período preferido',type:'select',required:false},
+    {key:'aviao_classe',service:'Avião',name:'classe',label:'Classe',type:'select',required:false},
+    {key:'aviao_periodoVolta',service:'Avião',name:'periodoVolta',label:'Período preferido da volta',type:'select',required:false},
+    {key:'aviao_bagagem',service:'Avião',name:'bagagem',label:'Bagagem despachada?',type:'select',required:false},
+    {key:'hospedagem_cidade',service:'Hospedagem',name:'cidade',label:'Cidade / Localidade',placeholder:'Onde precisa se hospedar?',type:'text',required:true},
+    {key:'hospedagem_hotelPreferido',service:'Hospedagem',name:'hotelPreferido',label:'Hotel de preferência',placeholder:'Opcional',type:'text',required:false},
+    {key:'hospedagem_checkin',service:'Hospedagem',name:'checkin',label:'Check-in',type:'date',required:true},
+    {key:'hospedagem_checkout',service:'Hospedagem',name:'checkout',label:'Check-out',type:'date',required:true},
+    {key:'hospedagem_hospedes',service:'Hospedagem',name:'hospedes',label:'Quantidade de hóspedes',type:'number',required:true},
+    {key:'hospedagem_regiao',service:'Hospedagem',name:'regiao',label:'Região / Endereço de referência',placeholder:'Próximo ao local do evento, unidade, cliente...',type:'text',required:false},
+    {key:'locacao_retiradaLocal',service:'Locação',name:'retiradaLocal',label:'Local de retirada',placeholder:'Cidade / Aeroporto / Endereço',type:'text',required:true},
+    {key:'locacao_devolucaoLocal',service:'Locação',name:'devolucaoLocal',label:'Local de devolução',placeholder:'Cidade / Aeroporto / Endereço',type:'text',required:true},
+    {key:'locacao_retiradaData',service:'Locação',name:'retiradaData',label:'Data da retirada',type:'date',required:true},
+    {key:'locacao_retiradaHora',service:'Locação',name:'retiradaHora',label:'Horário de retirada',type:'text',required:false},
+    {key:'locacao_devolucaoData',service:'Locação',name:'devolucaoData',label:'Data da devolução',type:'date',required:true},
+    {key:'locacao_devolucaoHora',service:'Locação',name:'devolucaoHora',label:'Horário de devolução',type:'text',required:false},
+    {key:'locacao_categoria',service:'Locação',name:'categoria',label:'Categoria do veículo',type:'select',required:false},
+    {key:'locacao_condutor',service:'Locação',name:'condutor',label:'Condutor principal',placeholder:'Nome completo',type:'text',required:true},
+    {key:'rodoviario_origem',service:'Rodoviário',name:'origem',label:'Origem',placeholder:'Cidade / Rodoviária',type:'text',required:true},
+    {key:'rodoviario_destino',service:'Rodoviário',name:'destino',label:'Destino',placeholder:'Cidade / Rodoviária',type:'text',required:true},
+    {key:'rodoviario_dataIda',service:'Rodoviário',name:'dataIda',label:'Data da ida',type:'date',required:true},
+    {key:'rodoviario_dataVolta',service:'Rodoviário',name:'dataVolta',label:'Data da volta',type:'date',required:false},
+    {key:'rodoviario_periodo',service:'Rodoviário',name:'periodo',label:'Horário preferido',type:'select',required:false},
+    {key:'rodoviario_classe',service:'Rodoviário',name:'classe',label:'Tipo de passagem',type:'select',required:false}
+  ];
+  const $=id=>document.getElementById(id);let currentType='Avião',adminAuthed=false,expandedId=null,toastTimer;
+  function getFieldConfigs(){try{return JSON.parse(localStorage.getItem(FIELD_CONFIG_STORE)||'{}')}catch{return {}}}
+  function saveFieldConfigs(map){localStorage.setItem(FIELD_CONFIG_STORE,JSON.stringify(map))}
+  function getBaseDef(key){return BASE_FIELD_DEFS.find(def=>def.key===key)||null}
+  function applyManagedConfig(def){const cfg=getFieldConfigs()[def.key]||{};return {...def,...cfg,hidden:!!cfg.hidden}}
+  function getManagedFieldByKey(key){const base=getBaseDef(key);if(base)return {...applyManagedConfig(base),kind:'base'};const custom=getFieldDefs().find(def=>def.id===key);if(custom)return {...custom,key:custom.id,kind:'custom',hidden:false};return null}
+  function updateFieldElement(block,input,def){if(!block||!input)return;block.hidden=!!def.hidden;input.disabled=!!def.hidden;input.required=!!def.hidden?false:!!def.required;const label=block.querySelector('label:not(.checkbox-line)');if(label){label.innerHTML=`${esc(def.label)}${def.required?' <span class="req">*</span>':''}`;}if('placeholder' in input && def.placeholder!==undefined && def.placeholder!==null){input.placeholder=def.placeholder;}}
+  function applyStaticFieldConfigs(){const defs=BASE_FIELD_DEFS.filter(def=>def.scope==='static').map(applyManagedConfig);['travelForm','editForm'].forEach(formId=>{const form=$(formId);if(!form)return;defs.forEach(def=>{const input=form.querySelector(`[name="${def.name}"]`);if(input)updateFieldElement(input.closest('.field'),input,def);});});}
+  function buildConfiguredServiceMarkup(type){const wrapper=document.createElement('div');wrapper.innerHTML=types[type].fields;BASE_FIELD_DEFS.filter(def=>def.service===type).map(applyManagedConfig).forEach(def=>{const input=wrapper.querySelector(`[name="${def.name}"]`);if(!input)return;const block=input.closest('.field');if(def.hidden){block?.remove();return}updateFieldElement(block,input,def);});return wrapper;}
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const getAll=()=>{try{const x=JSON.parse(localStorage.getItem(STORE)||'[]');return Array.isArray(x)?x:[]}catch{return []}};
+  const saveAll=arr=>localStorage.setItem(STORE,JSON.stringify(arr));
+  function notify(msg){clearTimeout(toastTimer);$('toast').textContent=msg;$('toast').hidden=false;toastTimer=setTimeout(()=>$('toast').hidden=true,4000)}
+  function setType(type){currentType=type;document.querySelectorAll('.tab').forEach(b=>{const active=b.dataset.type===type;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))});$('travelSectionTitle').textContent=types[type].title;$('travelSectionSubtitle').textContent=types[type].subtitle;const wrapper=buildConfiguredServiceMarkup(type);$('serviceFields').replaceChildren(...Array.from(wrapper.childNodes));const today=new Date();const local=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);$('serviceFields').querySelectorAll('input[type=date]').forEach(el=>el.min=local);applyStaticFieldConfigs();renderRequestCustomFields()}
+  function show(view){
+    const home=view==='home', admin=view==='admin', request=view==='request';
+    $('homeView').hidden=!home;
+    $('requestView').hidden=!request;
+    $('adminView').hidden=!admin;
+    if($('navRequest')) $('navRequest').classList.toggle('active',home||request);
+    if($('navAdmin')) $('navAdmin').classList.toggle('active',admin);
+    if(home){$('topEyebrow').textContent='CENTRAL DE VIAGENS / INÍCIO';$('topTitle').textContent='Portal de viagens';}
+    if(request){$('topEyebrow').textContent='CENTRAL DE VIAGENS / SOLICITAÇÕES';$('topTitle').textContent='Solicitar viagem';}
+    if(admin){$('topEyebrow').textContent='Acesso administrativo';$('topTitle').textContent='Gestão de solicitações';renderAdmin();}
+    window.scrollTo({top:0,behavior:'smooth'})
+  }
+  function openService(type){setType(type);show('request')}
+  $('navRequest') && ($('navRequest').onclick=()=>show('home'));
+  $('navAdmin') && ($('navAdmin').onclick=()=>show('admin'));
+  $('backHome').onclick=()=>show('home');
+  $('headerHomeBtn').onclick=()=>show('home');
+  $('headerAdminBtn').onclick=()=>show('admin');
+  document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setType(b.dataset.type));
+  document.querySelectorAll('[data-open-service]').forEach(b=>b.onclick=()=>openService(b.dataset.openService));
+  document.querySelector('[data-open-admin]').onclick=()=>show('admin');
+  function validateDates(data,type=currentType){let a,b;if(type==='Avião'||type==='Rodoviário'){a=data.dataIda;b=data.dataVolta}else if(type==='Hospedagem'){a=data.checkin;b=data.checkout}else{a=data.retiradaData;b=data.devolucaoData}if(b&&a&&b<a)return 'A data final não pode ser anterior à data inicial.';if(type==='Hospedagem'&&a===b)return 'O check-out precisa ser depois do check-in.';if(type==='Locação'&&a===b&&data.retiradaHora&&data.devolucaoHora&&data.devolucaoHora<=data.retiradaHora)return 'O horário de devolução precisa ser posterior ao de retirada.';return ''}
+  function uniqueCode(arr){let code;do{const hex=new Uint8Array(5);if(globalThis.crypto?.getRandomValues)crypto.getRandomValues(hex);else for(let i=0;i<5;i++)hex[i]=Math.floor(Math.random()*256);const suffix=Array.from(hex).map(v=>(v%36).toString(36)).join('').toUpperCase();code='VG-'+new Date().getFullYear()+'-'+suffix}while(arr.some(a=>a.codigo===code));return code}
+  function openSuccessModal(code){$('successCode').textContent=code;$('successModal').hidden=false;document.body.style.overflow='hidden'}
+  function closeSuccessModal(){ $('successModal').hidden=true; document.body.style.overflow=''; }
+  $('successModal').addEventListener('click',e=>{ if(e.target===$('successModal')) closeSuccessModal(); });
+  window.addEventListener('keydown',e=>{ if(e.key==='Escape' && !$('successModal').hidden) closeSuccessModal(); });
+  $('travelForm').addEventListener('submit',e=>{e.preventDefault();const form=e.currentTarget;if(!form.reportValidity())return;const values=Object.fromEntries(new FormData(form).entries());const error=validateDates(values);if(error){notify(error);return}const list=getAll();const entry={codigo:uniqueCode(list),tipo:currentType,criadoEm:new Date().toISOString(),status:'Recebida',notaAdmin:'',...values};try{list.unshift(entry);saveAll(list)}catch{notify('Não foi possível registrar: armazenamento do navegador indisponível.');return}openSuccessModal(entry.codigo);notify('Solicitação registrada neste navegador!')});
+  $('newRequest').onclick=()=>{$('travelForm').reset();setType('Avião');closeSuccessModal();show('home')};$('copyCode').onclick=async()=>{const code=$('successCode').textContent;try{await navigator.clipboard.writeText(code);notify('Código copiado!')}catch{notify('Selecione e copie o código: '+code)}};
+  function statusClass(s){return {'Em análise':'analisando','Aprovada':'aprovada','Concluída':'concluida','Recusada':'recusada'}[s]||''}
+  const dt=s=>new Date(s).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
+  function getFieldDefs(){try{return JSON.parse(localStorage.getItem(FIELD_STORE)||'[]').filter(x=>x&&x.id&&x.label&&x.type)}catch{return[]}}
+  function saveFieldDefs(list){localStorage.setItem(FIELD_STORE,JSON.stringify(list))}
+  function parseFieldOptions(value){return String(value||'').split(',').map(s=>s.trim()).filter(Boolean)}
+  function fieldTypeLabel(type){return ({text:'Texto',textarea:'Texto longo',number:'Número',date:'Data',select:'Seleção'})[type]||type}
+  function dynamicFieldHtml(def,prefix='',value=''){
+    const id=prefix+def.id, req=def.required?'required':'', reqMark=def.required?' <span class="req">*</span>':'', val=String(value??'');
+    const cls=def.type==='textarea'?'full':'half';
+    const ph=def.placeholder?` placeholder="${esc(def.placeholder)}"`:'';
+    if(def.type==='textarea')return `<div class="field ${cls}"><label for="${esc(id)}">${esc(def.label)}${reqMark}</label><textarea id="${esc(id)}" name="${esc(def.id)}" ${req}${ph}>${esc(val)}</textarea></div>`;
+    if(def.type==='select'){const opts=parseFieldOptions(def.options).map(opt=>`<option ${opt===val?'selected':''}>${esc(opt)}</option>`).join('');return `<div class="field ${cls}"><label for="${esc(id)}">${esc(def.label)}${reqMark}</label><select id="${esc(id)}" name="${esc(def.id)}" ${req}><option value="">Selecione</option>${opts}</select></div>`}
+    const type=def.type==='number'?'number':def.type==='date'?'date':'text';
+    return `<div class="field ${cls}"><label for="${esc(id)}">${esc(def.label)}${reqMark}</label><input id="${esc(id)}" name="${esc(def.id)}" type="${type}" value="${esc(val)}" ${req}${ph}></div>`
+  }
+  function renderRequestCustomFields(values={}){const defs=getFieldDefs(),section=$('customFieldsSection'),area=$('customFieldsArea'); if(!section||!area)return; if(!defs.length){section.hidden=true;area.innerHTML='';return} section.hidden=false; area.innerHTML=defs.map(def=>dynamicFieldHtml(def,'cf-',values[def.id]||'')).join('')}
+  function renderEditCustomFields(values={}){const defs=getFieldDefs(),section=$('editCustomFieldsSection'),area=$('editCustomFieldsArea'); if(!section||!area)return; if(!defs.length){section.hidden=true;area.innerHTML='';return} section.hidden=false; area.innerHTML=defs.map(def=>dynamicFieldHtml(def,'editcf-',values[def.id]||'')).join('')}
+  function resetFieldConfigForm(){ $('fieldConfigForm').reset(); $('fieldConfigId').value=''; $('fieldConfigKind').value='custom'; $('fieldConfigType').disabled=false; $('fieldConfigCancel').hidden=true; syncFieldOptionsVisibility(); }
+  function syncFieldOptionsVisibility(){ const isSelect=$('fieldConfigType').value==='select' && $('fieldConfigKind').value==='custom'; $('fieldConfigOptionsWrap').hidden=!isSelect; $('fieldConfigOptions').required=isSelect; }
+  function renderFieldManager(){ const host=$('customFieldList'); if(!host) return; const defs=[...BASE_FIELD_DEFS.map(def=>({...applyManagedConfig(def),kind:'base'})), ...getFieldDefs().map(def=>({...def,key:def.id,kind:'custom'}))]; host.innerHTML=defs.length?defs.map(def=>`<div class="custom-field-item ${def.hidden?'hidden-field':''}"><div><strong>${esc(def.label)}</strong><p>${esc(def.placeholder||'Sem texto de apoio.')}</p><div class="custom-field-meta"><span class="meta-chip">${esc(fieldTypeLabel(def.type))}</span>${def.service?`<span class="meta-chip">${esc(def.service)}</span>`:'<span class="meta-chip">Geral</span>'}${def.required?'<span class="meta-chip">Obrigatório</span>':''}${def.hidden?'<span class="meta-chip hidden-chip">Oculto</span>':''}${def.kind==='custom'&&def.type==='select'&&def.options?`<span class="meta-chip">${esc(parseFieldOptions(def.options).length)} opções</span>`:''}</div></div><div class="custom-field-actions"><button class="btn light" type="button" data-field-edit="${esc(def.key)}">Editar</button><button class="btn ${def.hidden?'light':'danger'}" type="button" data-field-delete="${esc(def.key)}">${def.hidden?'Restaurar':'Excluir'}</button></div></div>`).join(''):'<div class="empty-fields">Nenhum campo cadastrado no formulário.</div>' }
+
+
+  $('lookupForm').onsubmit=e=>{e.preventDefault();const code=$('lookupCode').value.trim().toUpperCase();const item=getAll().find(x=>x.codigo===code);$('lookupResult').innerHTML=item?`<div class="record"><div class="record-top"><strong>${esc(item.codigo)}</strong><span class="status ${statusClass(item.status)}">${esc(item.status)}</span></div><p>${esc(item.tipo)} · ${esc(item.nome)} · ${esc(dt(item.criadoEm))}</p>${item.notaAdmin?`<p><b>Retorno da equipe:</b> ${esc(item.notaAdmin)}</p>`:''}</div>`:'<div class="record">Não encontramos esse código neste navegador. Confira se foi digitado corretamente.</div>'};
+  $('loginForm').onsubmit=e=>{e.preventDefault();if($('adminUser').value.trim()==='admin'&&$('adminPass').value==='Demo@2026'){adminAuthed=true;$('adminPass').value='';renderAdmin();showAdminSection('requests');notify('Acesso de demonstração liberado.')}else notify('Usuário ou senha de demonstração incorretos.')};
+  $('logout').onclick=()=>{if(!$('editModal').hidden)closeAdminEditor();adminAuthed=false;expandedId=null;$('adminRequestsPane').hidden=false;$('adminFieldsPane').hidden=true;renderAdmin();notify('Você saiu da área administrativa.')};
+  
+  ['adminSearch','filterStatus','filterType'].forEach(id=>$(id).addEventListener('input',renderAdmin));
+  $('fieldConfigType')?.addEventListener('change',syncFieldOptionsVisibility);
+  $('fieldConfigCancel')?.addEventListener('click',resetFieldConfigForm);
+  $('fieldConfigForm')?.addEventListener('submit',e=>{e.preventDefault(); if(!adminAuthed)return; const label=$('fieldConfigLabel').value.trim(), type=$('fieldConfigType').value, placeholder=$('fieldConfigPlaceholder').value.trim(), options=$('fieldConfigOptions').value.trim(), required=$('fieldConfigRequired').checked, editId=$('fieldConfigId').value, kind=$('fieldConfigKind').value; if(!label){notify('Informe o nome do campo.'); return} if(kind==='custom' && type==='select' && parseFieldOptions(options).length<1){notify('Informe ao menos uma opção para o campo de seleção.'); return} if(kind==='base' && editId){ const def=getBaseDef(editId); if(!def){notify('Campo não encontrado.'); return} const configs=getFieldConfigs(); configs[editId]={...(configs[editId]||{}),label,placeholder,required,hidden:false}; try{saveFieldConfigs(configs)}catch{notify('Não foi possível salvar o campo neste navegador.'); return} } else { const defs=getFieldDefs(); if(editId){ const index=defs.findIndex(d=>d.id===editId); if(index<0){notify('Campo não encontrado.'); return} defs[index]={...defs[index],label,type,placeholder,options,required}; } else { defs.push({id:'cf_'+Date.now(),label,type,placeholder,options,required}); } try{saveFieldDefs(defs)}catch{notify('Não foi possível salvar o campo neste navegador.'); return} } resetFieldConfigForm(); renderFieldManager(); applyStaticFieldConfigs(); setType(currentType); if(editSource){ renderServiceEditor($('editType').value); renderEditCustomFields(editSource); populateNamedFields($('editForm'),editSource); } notify('Campo do formulário salvo com sucesso!');});
+  $('customFieldList')?.addEventListener('click',e=>{ const edit=e.target.closest('[data-field-edit]'); const del=e.target.closest('[data-field-delete]'); if(edit){ const field=getManagedFieldByKey(edit.dataset.fieldEdit); if(!field)return; $('fieldConfigId').value=field.key; $('fieldConfigKind').value=field.kind; $('fieldConfigLabel').value=field.label||''; $('fieldConfigType').value=field.type||'text'; $('fieldConfigPlaceholder').value=field.placeholder||''; $('fieldConfigOptions').value=field.kind==='custom'?(field.options||''):''; $('fieldConfigRequired').checked=!!field.required; $('fieldConfigType').disabled=field.kind==='base'; $('fieldConfigCancel').hidden=false; syncFieldOptionsVisibility(); $('fieldConfigLabel').focus(); return; } if(del){ const field=getManagedFieldByKey(del.dataset.fieldDelete); if(!field)return; if(field.kind==='base'){ const configs=getFieldConfigs(); if(field.hidden){ configs[field.key]={...(configs[field.key]||{}),hidden:false}; try{saveFieldConfigs(configs)}catch{notify('Não foi possível restaurar o campo.'); return} notify('Campo restaurado com sucesso!'); } else { if(!confirm(`Excluir o campo "${field.label}" do formulário?`))return; configs[field.key]={...(configs[field.key]||{}),hidden:true}; try{saveFieldConfigs(configs)}catch{notify('Não foi possível excluir o campo.'); return} notify('Campo excluído com sucesso!'); } } else { if(!confirm(`Excluir o campo "${field.label}"?`))return; const next=getFieldDefs().filter(d=>d.id!==field.key); try{saveFieldDefs(next)}catch{notify('Não foi possível excluir o campo.'); return} notify('Campo excluído com sucesso!'); } resetFieldConfigForm(); renderFieldManager(); applyStaticFieldConfigs(); setType(currentType); if(editSource){ renderServiceEditor($('editType').value); renderEditCustomFields(editSource); populateNamedFields($('editForm'),editSource); } } });
+  function detailHtml(item){const labels={nome:'Solicitante',email:'E-mail',area:'Área / Departamento',telefone:'Telefone',motivo:'Motivo',centroCusto:'Centro de custo / Projeto',justificativa:'Justificativa',observacoes:'Observações',origem:'Origem',destino:'Destino',dataIda:'Data da ida',dataVolta:'Data da volta',periodoIda:'Período da ida',periodoVolta:'Período da volta',classe:'Classe / Tipo',bagagem:'Bagagem',cidade:'Cidade',hotelPreferido:'Hotel preferido',checkin:'Check-in',checkout:'Check-out',hospedes:'Hóspedes',regiao:'Região',retiradaLocal:'Retirada',devolucaoLocal:'Devolução',retiradaData:'Data da retirada',devolucaoData:'Data da devolução',retiradaHora:'Hora da retirada',devolucaoHora:'Hora da devolução',categoria:'Categoria do veículo',condutor:'Condutor',periodo:'Período preferido'};const baseCells=Object.entries(labels).filter(([k])=>item[k]).map(([k,v])=>`<div class="detail-cell"><b>${esc(v)}</b>${esc(item[k])}</div>`).join('');const customCells=getFieldDefs().filter(def=>item[def.id]).map(def=>`<div class="detail-cell"><b>${esc(def.label)}</b>${esc(item[def.id])}</div>`).join('');return `<div class="detail"><div class="detail-grid">${baseCells}${customCells}</div></div>`}
+
+  // Modal editor: builds service-specific fields from the same schema as the request form.
+  let editCode=null,editSource=null,editInvoker=null;
+  const serviceKeys=new Set(Object.values(types).flatMap(info=>[...info.fields.matchAll(/name="([^"]+)"/g)].map(m=>m[1])));
+  function populateNamedFields(root,data){
+    root.querySelectorAll('[name]').forEach(el=>{
+      if(el.name!=='tipo' && Object.prototype.hasOwnProperty.call(data,el.name))el.value=String(data[el.name]??'');
+    });
+  }
+  function renderServiceEditor(type){
+    const area=$('editServiceFields');
+    // Reuse the public request schema but prefix IDs to avoid duplicates with hidden request form.
+    const wrapper=buildConfiguredServiceMarkup(type);
+    wrapper.querySelectorAll('[id]').forEach(el=>el.id='edit-'+el.id);
+    wrapper.querySelectorAll('label[for]').forEach(el=>el.htmlFor='edit-'+el.htmlFor);
+    area.replaceChildren(...Array.from(wrapper.childNodes));
+    if(editSource?.tipo===type)populateNamedFields(area,editSource);
+  }
+  function openAdminEditor(code){
+    if(!adminAuthed)return;
+    const item=getAll().find(x=>x.codigo===code);if(!item){notify('Solicitação não encontrada.');return}
+    editCode=code;editSource=item;editInvoker=document.activeElement;
+    const form=$('editForm');form.reset();
+    $('editCode').textContent=code;$('editError').hidden=true;
+    form.elements.tipo.value=item.tipo;
+    renderServiceEditor(item.tipo);
+    renderEditCustomFields(item);
+    applyStaticFieldConfigs();
+    populateNamedFields(form,item);
+    $('editModal').hidden=false;document.body.style.overflow='hidden';
+    $('closeEdit').focus();
+  }
+  function closeAdminEditor(){
+    $('editModal').hidden=true;document.body.style.overflow='';editCode=null;editSource=null;
+    if(editInvoker?.isConnected)editInvoker.focus();editInvoker=null;
+  }
+  $('closeEdit').onclick=closeAdminEditor;
+  $('cancelEdit').onclick=closeAdminEditor;
+  $('editModal').addEventListener('click',e=>{if(e.target===$('editModal'))closeAdminEditor()});
+  window.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('editModal').hidden)closeAdminEditor()});
+  $('editType').addEventListener('change',e=>{
+    if(!types[e.target.value])return;
+    renderServiceEditor(e.target.value);$('editError').hidden=true;
+  });
+  $('editForm').addEventListener('submit',e=>{
+    e.preventDefault();if(!adminAuthed||!editCode)return;
+    const form=e.currentTarget;
+    if(!form.reportValidity())return;
+    const values=Object.fromEntries(new FormData(form).entries());
+    const type=values.tipo;
+    if(!types[type]){notify('Tipo de serviço inválido.');return}
+    const error=validateDates(values,type);
+    if(error){$('editError').textContent=error;$('editError').hidden=false;notify(error);return}
+    if(editSource && editSource.tipo!==type && !confirm('Alterar o tipo de serviço substituirá os dados específicos da viagem anterior. Deseja continuar?'))return;
+    const list=getAll(),index=list.findIndex(x=>x.codigo===editCode);
+    if(index<0){notify('Solicitação não encontrada.');return}
+    const updated={...list[index]};
+    if(updated.tipo!==type)serviceKeys.forEach(key=>delete updated[key]);
+    Object.assign(updated,values);
+    updated.atualizadoEm=new Date().toISOString();
+    try{list[index]=updated;saveAll(list)}catch{notify('Não foi possível salvar a solicitação neste navegador.');return}
+    closeAdminEditor();renderAdmin();notify('Alterações salvas com sucesso!');
+  });
+  function showAdminSection(section){
+    if(!adminAuthed)return;
+    const fields=section==='fields';
+    $('adminRequestsPane').hidden=fields;
+    $('adminFieldsPane').hidden=!fields;
+    $('adminRequestsTab').classList.toggle('active',!fields);
+    $('adminFieldsTab').classList.toggle('active',fields);
+    $('adminRequestsTab').setAttribute('aria-selected',String(!fields));
+    $('adminFieldsTab').setAttribute('aria-selected',String(fields));
+    if(fields)renderFieldManager();
+  }
+  $('adminRequestsTab').onclick=()=>showAdminSection('requests');
+  $('adminFieldsTab').onclick=()=>showAdminSection('fields');
+  function renderAdmin(){if(!adminAuthed){$('adminLogin').hidden=false;$('adminDashboard').hidden=true;return}$('adminLogin').hidden=true;$('adminDashboard').hidden=false;renderFieldManager();const all=getAll();$('statTotal').textContent=all.length;$('statReceived').textContent=all.filter(x=>x.status==='Recebida').length;$('statAnalysis').textContent=all.filter(x=>x.status==='Em análise').length;$('statApproved').textContent=all.filter(x=>['Aprovada','Concluída'].includes(x.status)).length;const q=$('adminSearch').value.trim().toLocaleLowerCase('pt-BR'),type=$('filterType').value,status=$('filterStatus').value;const rows=all.filter(x=>(!type||x.tipo===type)&&(!status||x.status===status)&&(!q||[x.codigo,x.nome,x.email,x.destino,x.cidade,x.retiradaLocal,x.devolucaoLocal,x.origem].some(v=>String(v||'').toLocaleLowerCase('pt-BR').includes(q))));$('adminList').innerHTML=rows.length?rows.map(x=>`<article class="admin-item"><div class="admin-row"><div class="type-icon">${types[x.tipo]?.icon||'<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>'}</div><div class="admin-row-main"><strong>${esc(x.codigo)} · ${esc(x.tipo)}</strong><p>${esc(x.nome)} · ${esc(x.destino||x.cidade||x.retiradaLocal||'Solicitação')} · ${esc(dt(x.criadoEm))}</p></div><div class="row-actions"><span class="status ${statusClass(x.status)}">${esc(x.status)}</span><button class="btn light" type="button" data-expand="${esc(x.codigo)}">${expandedId===x.codigo?'Fechar':'Ver detalhes'}</button><button class="btn edit-trigger" type="button" data-edit="${esc(x.codigo)}">Editar</button></div></div>${expandedId===x.codigo?detailHtml(x):''}</article>`).join(''):'<div class="empty">Nenhuma solicitação encontrada para os filtros selecionados.</div>'}
+  $('adminList').addEventListener('click',e=>{
+    if(!adminAuthed)return;
+    const edit=e.target.closest('[data-edit]');if(edit){openAdminEditor(edit.dataset.edit);return}
+    const btn=e.target.closest('[data-expand]');if(!btn)return;
+    expandedId=expandedId===btn.dataset.expand?null:btn.dataset.expand;renderAdmin();
+  });
+  $('exportCsv').onclick=()=>{if(!adminAuthed)return;const data=getAll();if(!data.length){notify('Não há solicitações para exportar.');return}const baseHeaders=['codigo','tipo','criadoEm','status','nome','email','area','telefone','motivo','centroCusto','justificativa','observacoes','origem','destino','dataIda','dataVolta','periodoIda','periodoVolta','classe','bagagem','cidade','hotelPreferido','checkin','checkout','hospedes','regiao','retiradaLocal','devolucaoLocal','retiradaData','retiradaHora','devolucaoData','devolucaoHora','categoria','condutor','periodo','notaAdmin','atualizadoEm'];const headers=[...baseHeaders,...getFieldDefs().map(def=>def.id)];const csvCell=s=>{let val=String(s??'');if(/^[\s]*[=+@-]/.test(val))val="'"+val;return '"'+val.replace(/"/g,'""')+'"'};const csv='\uFEFF'+[headers, ...data.map(o=>headers.map(h=>o[h]??''))].map(row=>row.map(csvCell).join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='solicitacoes-viagens.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);notify('Arquivo CSV gerado.')};
+  syncFieldOptionsVisibility();
+  applyStaticFieldConfigs();
+  renderRequestCustomFields();
+  renderFieldManager();
+  setType('Avião');show('home');
+})();
+</script>
+</body>
+</html>
