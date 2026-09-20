@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Nenhum acesso até que a autenticação e as regras por perfil estejam prontas.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
