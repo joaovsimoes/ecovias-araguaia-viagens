@@ -1,0 +1,39 @@
+name: Publicar versão de testes no Firebase
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ecovias-hosting-tests
+  cancel-in-progress: true
+jobs:
+  deploy_preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar configuração de autenticação do deploy
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          test -n "$FIREBASE_SERVICE_ACCOUNT" || (echo "Falta configurar o secret FIREBASE_SERVICE_ACCOUNT no GitHub."; exit 1)
+      - name: Validar JavaScript e preparar a versão de homologação
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          html=Path('staging/index.html').read_text(encoding='utf-8')
+          assert 'Demo@2026' not in html and 'localStorage' not in html
+          assert 'firebase-client.js' in html
+          Path('/tmp/ecovias-stage.js').write_text(html.split('<script>',1)[1].split('</script>',1)[0],encoding='utf-8')
+          PY
+          node --check /tmp/ecovias-stage.js
+          node --check staging/firebase-client.js
+          cp staging/index.html public/index.html
+          cp staging/firebase-client.js public/firebase-client.js
+      - name: Enviar somente ao canal temporário de testes
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          channelId: homologacao
+          expires: 7d
+          projectId: ecovias-araguaia-viagens
