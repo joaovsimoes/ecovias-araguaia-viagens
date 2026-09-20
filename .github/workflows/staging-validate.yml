@@ -1,0 +1,29 @@
+name: Validar integração Firebase (homologação)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'staging/**'
+      - '.github/workflows/staging-validate.yml'
+  pull_request:
+    paths:
+      - 'staging/**'
+permissions:
+  contents: read
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar JavaScript e ausência de login demonstrativo
+        run: |
+          node --check staging/firebase-client.js
+          python3 - <<'PY'
+          from pathlib import Path
+          html=Path('staging/index.html').read_text(encoding='utf-8')
+          assert 'firebase-client.js' in html
+          assert 'Demo@2026' not in html
+          assert 'localStorage' not in html
+          Path('/tmp/ecovias-stage.js').write_text(html.split('<script>',1)[1].split('</script>',1)[0],encoding='utf-8')
+          PY
+          node --check /tmp/ecovias-stage.js
