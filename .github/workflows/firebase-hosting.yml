@@ -1,0 +1,36 @@
+name: Firebase Hosting | Publicação controlada
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: firebase-hosting-production
+  cancel-in-progress: true
+jobs:
+  deploy:
+    # Não publicar enquanto o portal usar login demonstrativo/localStorage.
+    # Habilitar a variável só após a migração, testes e revisão de segurança.
+    if: ${{ vars.ENABLE_PRODUCTION_DEPLOY == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar configuração de publicação
+        env:
+          PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          test "$PROJECT_ID" = "ecovias-araguaia-viagens" || (echo "Configure FIREBASE_PROJECT_ID"; exit 1)
+          test -n "$FIREBASE_SERVICE_ACCOUNT" || (echo "Configure FIREBASE_SERVICE_ACCOUNT"; exit 1)
+          if grep -q "Portal de Viagens em preparação" public/index.html; then
+            echo "Publicação bloqueada: página de preparação ainda ativa."
+            exit 1
+          fi
+      - name: Publicar Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          channelId: live
+          projectId: ecovias-araguaia-viagens
