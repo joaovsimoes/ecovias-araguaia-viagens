@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin'
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
+    }
+    match /admins/{uid} {
+      // Provision roles in Firebase Console or a trusted Admin SDK, never client-side.
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list, create, update, delete: if false;
+    }
+    match /portalConfig/{docId} {
+      allow get: if request.auth != null && docId == 'form';
+      allow list: if false;
+      allow create, update: if docId == 'form' && isAdmin();
+      allow delete: if false;
+    }
+    match /solicitacoes/{code} {
+      allow create: if request.auth != null
+        && (request.auth.token.firebase.sign_in_provider == 'anonymous' || isAdmin())
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.codigo == code
+        && code.matches('VG-[0-9]{4}-[A-Z0-9]{5}')
+        && request.resource.data.status == 'Recebida'
+        && request.resource.data.notaAdmin == ''
+        && request.resource.data.tipo in ['Avião','Hospedagem','Locação','Rodoviário']
+        && request.resource.data.nome is string
+        && request.resource.data.email is string
+        && request.resource.data.centroCusto is string
+        && request.resource.data.justificativa is string;
+      allow get: if isAdmin() || (request.auth != null && resource.data.ownerUid == request.auth.uid);
+      allow list: if isAdmin();
+      allow update: if isAdmin()
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && request.resource.data.codigo == resource.data.codigo;
+      allow delete: if false;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
