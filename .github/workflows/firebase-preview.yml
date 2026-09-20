@@ -35,14 +35,8 @@ jobs:
           node --check staging/firebase-client.js
           cp staging/index.html public/index.html
           cp staging/firebase-client.js public/firebase-client.js
-      - name: Aplicar regras de acesso seguro no Firestore
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        run: |
-          printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/ecovias-firebase-service-account.json"
-          chmod 600 "$RUNNER_TEMP/ecovias-firebase-service-account.json"
-          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/ecovias-firebase-service-account.json"
-          npx --yes firebase-tools@latest deploy --only firestore:rules --project ecovias-araguaia-viagens --non-interactive
+      # As regras são aplicadas manualmente no Console antes deste fluxo.
+      # A conta de publicação tem acesso ao Hosting, mas não ao Service Usage/Firestore.
       - name: Enviar somente ao canal temporário de testes
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
