@@ -1,43 +1,107 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
     function isAdmin() {
-      return request.auth != null
+      return signedIn()
         && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
         && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin'
         && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
     }
+
+    function validCode(code) {
+      return code.matches('VG-[0-9]{4}-[A-Z0-9]{5}');
+    }
+
+    function validStatus(status) {
+      return status in ['Recebida', 'Em análise', 'Aprovada', 'Concluída', 'Recusada'];
+    }
+
+    function validPublicSummary(code) {
+      return request.resource.data.keys().hasOnly(['codigo', 'status', 'retorno', 'atualizadoEm'])
+        && request.resource.data.keys().hasAll(['codigo', 'status', 'retorno', 'atualizadoEm'])
+        && request.resource.data.codigo == code
+        && validCode(code)
+        && request.resource.data.status is string
+        && validStatus(request.resource.data.status)
+        && request.resource.data.retorno is string
+        && request.resource.data.retorno.size() <= 800
+        && request.resource.data.atualizadoEm is string
+        && request.resource.data.atualizadoEm.size() <= 40;
+    }
+
+    function summaryMatchesRequest(code) {
+      return request.resource.data.status ==
+          getAfter(/databases/$(database)/documents/solicitacoes/$(code)).data.status
+        && request.resource.data.retorno ==
+          getAfter(/databases/$(database)/documents/solicitacoes/$(code)).data.notaAdmin;
+    }
+
     match /admins/{uid} {
-      // Provision roles in Firebase Console or a trusted Admin SDK, never client-side.
-      allow get: if request.auth != null && request.auth.uid == uid;
+      // Perfis de administrador só são cadastrados pelo Console ou Admin SDK.
+      allow get: if signedIn() && request.auth.uid == uid;
       allow list, create, update, delete: if false;
     }
+
     match /portalConfig/{docId} {
-      allow get: if request.auth != null && docId == 'form';
+      allow get: if signedIn() && docId == 'form';
       allow list: if false;
       allow create, update: if docId == 'form' && isAdmin();
       allow delete: if false;
     }
+
     match /solicitacoes/{code} {
-      allow create: if request.auth != null
+      allow create: if signedIn()
         && (request.auth.token.firebase.sign_in_provider == 'anonymous' || isAdmin())
         && request.resource.data.ownerUid == request.auth.uid
         && request.resource.data.codigo == code
-        && code.matches('VG-[0-9]{4}-[A-Z0-9]{5}')
+        && validCode(code)
         && request.resource.data.status == 'Recebida'
         && request.resource.data.notaAdmin == ''
-        && request.resource.data.tipo in ['Avião','Hospedagem','Locação','Rodoviário']
+        && request.resource.data.tipo in ['Avião', 'Hospedagem', 'Locação', 'Rodoviário']
         && request.resource.data.nome is string
         && request.resource.data.email is string
         && request.resource.data.centroCusto is string
         && request.resource.data.justificativa is string;
-      allow get: if isAdmin() || (request.auth != null && resource.data.ownerUid == request.auth.uid);
+      // A solicitação completa não pode ser lida por terceiros apenas pelo código.
+      allow get: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
       allow list: if isAdmin();
       allow update: if isAdmin()
         && request.resource.data.ownerUid == resource.data.ownerUid
         && request.resource.data.codigo == resource.data.codigo;
       allow delete: if false;
     }
-    match /{document=**} { allow read, write: if false; }
+
+    match /andamentos/{code} {
+      // Apenas código, status, retorno público e data. Nunca dados pessoais.
+      // Qualquer sessão autenticada, inclusive anônima, consulta um código exato.
+      allow get: if signedIn();
+      allow list: if isAdmin();
+
+      // A criação deve estar vinculada à solicitação real.
+      allow create: if signedIn()
+        && validPublicSummary(code)
+        && summaryMatchesRequest(code)
+        && (isAdmin()
+          || (request.auth.token.firebase.sign_in_provider == 'anonymous'
+            && request.resource.data.status == 'Recebida'
+            && request.resource.data.retorno == ''
+            && getAfter(/databases/$(database)/documents/solicitacoes/$(code)).data.ownerUid == request.auth.uid));
+
+      // Somente administradores atualizam o andamento; a alteração da solicitação
+      // e do resumo público ocorre no mesmo lote atômico no aplicativo.
+      allow update: if isAdmin()
+        && validPublicSummary(code)
+        && request.resource.data.codigo == resource.data.codigo
+        && summaryMatchesRequest(code);
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
   }
 }
