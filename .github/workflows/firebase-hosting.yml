@@ -1,7 +1,11 @@
-name: Firebase Hosting | Publicação controlada
+name: Firebase Hosting | Portal oficial
 on:
   push:
     branches: [main]
+    paths:
+      - 'staging/**'
+      - 'firebase.json'
+      - '.github/workflows/firebase-hosting.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -10,24 +14,45 @@ concurrency:
   cancel-in-progress: true
 jobs:
   deploy:
-    # Não publicar enquanto o portal usar login demonstrativo/localStorage.
-    # Habilitar a variável só após a migração, testes e revisão de segurança.
-    if: ${{ vars.ENABLE_PRODUCTION_DEPLOY == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validar configuração de publicação
+      - name: Validar aplicação antes de publicar
         env:
-          PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
-          test "$PROJECT_ID" = "ecovias-araguaia-viagens" || (echo "Configure FIREBASE_PROJECT_ID"; exit 1)
-          test -n "$FIREBASE_SERVICE_ACCOUNT" || (echo "Configure FIREBASE_SERVICE_ACCOUNT"; exit 1)
+          test -n "$FIREBASE_SERVICE_ACCOUNT" || (echo "Configure FIREBASE_SERVICE_ACCOUNT no GitHub."; exit 1)
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          html=Path('staging/index.html').read_text(encoding='utf-8')
+          client=Path('staging/firebase-client.js').read_text(encoding='utf-8')
+          config=json.loads(Path('firebase.json').read_text(encoding='utf-8'))
+          assert config['hosting']['public']=='public'
+          assert 'Demo@2026' not in html and 'localStorage' not in html
+          assert 'Ambiente de demonstração' not in html
+          assert '<script type="module" src="./firebase-client-20260920-v4.js"></script>' in html
+          assert 'lookupPublicStatus(code)' in client
+          assert 'lookupFullRequest' not in client and 'lookupFullRequest' not in html
+          assert 'travelFor(entry)' in client and 'writeBatch(db)' in client
+          assert 'renderLookupDetails(summary)' in html
+          assert html.count('id="lookupForm"')==1
+          assert 'data-open-lookup="true"' in html
+          assert Path('firestore.rules').read_text(encoding='utf-8')==Path('staging/firestore.rules').read_text(encoding='utf-8')
+          Path('/tmp/ecovias-stage.js').write_text(html.split('<script>',1)[1].split('</script>',1)[0],encoding='utf-8')
+          PY
+          node --check /tmp/ecovias-stage.js
+          node --check staging/firebase-client.js
+          cp staging/index.html public/index.html
+          cp staging/firebase-client.js public/firebase-client-20260920-v4.js
+          test ! -f public/portal_viagens.html
           if grep -q "Portal de Viagens em preparação" public/index.html; then
             echo "Publicação bloqueada: página de preparação ainda ativa."
             exit 1
           fi
-      - name: Publicar Firebase Hosting
+      # As regras do Firestore são publicadas separadamente no Console.
+      # Este fluxo faz deploy SOMENTE do Hosting; nunca publica regras nem o protótipo.
+      - name: Publicar site oficial no Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
