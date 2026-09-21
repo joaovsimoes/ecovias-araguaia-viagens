@@ -20,9 +20,36 @@ service cloud.firestore {
       return status in ['Recebida', 'Em análise', 'Aprovada', 'Concluída', 'Recusada'];
     }
 
+    // Só dados permitidos da viagem; nunca campos pessoais, internos ou dinâmicos.
+    function travelFromRequest(requestData) {
+      return {
+        'origem': requestData.get('origem', ''),
+        'destino': requestData.get('destino', ''),
+        'dataIda': requestData.get('dataIda', ''),
+        'dataVolta': requestData.get('dataVolta', ''),
+        'periodoIda': requestData.get('periodoIda', ''),
+        'periodoVolta': requestData.get('periodoVolta', ''),
+        'classe': requestData.get('classe', ''),
+        'bagagem': requestData.get('bagagem', ''),
+        'cidade': requestData.get('cidade', ''),
+        'hotelPreferido': requestData.get('hotelPreferido', ''),
+        'checkin': requestData.get('checkin', ''),
+        'checkout': requestData.get('checkout', ''),
+        'regiao': requestData.get('regiao', ''),
+        'retiradaLocal': requestData.get('retiradaLocal', ''),
+        'devolucaoLocal': requestData.get('devolucaoLocal', ''),
+        'retiradaData': requestData.get('retiradaData', ''),
+        'retiradaHora': requestData.get('retiradaHora', ''),
+        'devolucaoData': requestData.get('devolucaoData', ''),
+        'devolucaoHora': requestData.get('devolucaoHora', ''),
+        'categoria': requestData.get('categoria', ''),
+        'periodo': requestData.get('periodo', '')
+      };
+    }
+
     function validPublicSummary(code) {
-      return request.resource.data.keys().hasOnly(['codigo', 'status', 'retorno', 'atualizadoEm'])
-        && request.resource.data.keys().hasAll(['codigo', 'status', 'retorno', 'atualizadoEm'])
+      return request.resource.data.keys().hasOnly(['codigo', 'status', 'retorno', 'atualizadoEm', 'servico', 'viagem', 'alteracoes'])
+        && request.resource.data.keys().hasAll(['codigo', 'status', 'retorno', 'atualizadoEm', 'servico', 'viagem', 'alteracoes'])
         && request.resource.data.codigo == code
         && validCode(code)
         && request.resource.data.status is string
@@ -30,14 +57,23 @@ service cloud.firestore {
         && request.resource.data.retorno is string
         && request.resource.data.retorno.size() <= 800
         && request.resource.data.atualizadoEm is string
-        && request.resource.data.atualizadoEm.size() <= 40;
+        && request.resource.data.atualizadoEm.size() <= 40
+        && request.resource.data.servico in ['Avião', 'Hospedagem', 'Locação', 'Rodoviário']
+        && request.resource.data.viagem is map
+        && request.resource.data.viagem.keys().hasOnly(['origem', 'destino', 'dataIda', 'dataVolta', 'periodoIda', 'periodoVolta', 'classe', 'bagagem', 'cidade', 'hotelPreferido', 'checkin', 'checkout', 'regiao', 'retiradaLocal', 'devolucaoLocal', 'retiradaData', 'retiradaHora', 'devolucaoData', 'devolucaoHora', 'categoria', 'periodo'])
+        && request.resource.data.alteracoes is string
+        && request.resource.data.alteracoes.size() <= 240;
     }
 
     function summaryMatchesRequest(code) {
       return request.resource.data.status ==
           getAfter(/databases/$(database)/documents/solicitacoes/$(code)).data.status
         && request.resource.data.retorno ==
-          getAfter(/databases/$(database)/documents/solicitacoes/$(code)).data.notaAdmin;
+          getAfter(/databases/$(database)/documents/solicitacoes/$(code)).data.notaAdmin
+        && request.resource.data.servico ==
+          getAfter(/databases/$(database)/documents/solicitacoes/$(code)).data.tipo
+        && request.resource.data.viagem ==
+          travelFromRequest(getAfter(/databases/$(database)/documents/solicitacoes/$(code)).data);
     }
 
     match /admins/{uid} {
