@@ -21,11 +21,14 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           html=Path('staging/index.html').read_text(encoding='utf-8')
-          assert '<script type="module" src="./firebase-client-20260920-v3.js"></script>' in html
+          assert '<script type="module" src="./firebase-client-20260920-v4.js"></script>' in html
           client=Path('staging/firebase-client.js').read_text(encoding='utf-8')
           assert 'lookupPublicStatus(code)' in client
-          assert 'lookupFullRequest(code)' in client
-          assert 'renderLookupDetails(summary,full)' in html
+          assert 'renderLookupDetails(summary)' in html
+          assert 'lookupFullRequest(code)' not in client
+          assert 'viagem' in client and 'travelFor(entry)' in client
+          assert 'renderLookupDetails(summary)' in html
+          assert 'lookupFullRequest(code)' not in html
           assert html.count('id="lookupForm"') == 1
           assert 'data-open-lookup="true"' in html
           assert 'syncPublicStatuses(requests)' in client
