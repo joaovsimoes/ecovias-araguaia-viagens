@@ -421,14 +421,17 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
   function notify(msg){clearTimeout(toastTimer);$('toast').textContent=msg;$('toast').hidden=false;toastTimer=setTimeout(()=>$('toast').hidden=true,4000)}
   function setType(type){currentType=type;document.querySelectorAll('.tab').forEach(b=>{const active=b.dataset.type===type;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))});$('travelSectionTitle').textContent=types[type].title;$('travelSectionSubtitle').textContent=types[type].subtitle;const wrapper=buildConfiguredServiceMarkup(type);$('serviceFields').replaceChildren(...Array.from(wrapper.childNodes));const today=new Date();const local=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);$('serviceFields').querySelectorAll('input[type=date]').forEach(el=>el.min=local);applyStaticFieldConfigs();renderRequestCustomFields()}
   function show(view){
-    const home=view==='home', admin=view==='admin', request=view==='request';
+    const home=view==='home', admin=view==='admin', request=view==='request', lookup=view==='lookup', details=view==='lookupDetails';
     $('homeView').hidden=!home;
     $('requestView').hidden=!request;
+    $('lookupView').hidden=!lookup;
+    $('lookupDetailView').hidden=!details;
     $('adminView').hidden=!admin;
-    if($('navRequest')) $('navRequest').classList.toggle('active',home||request);
+    if($('navRequest')) $('navRequest').classList.toggle('active',home||request||lookup||details);
     if($('navAdmin')) $('navAdmin').classList.toggle('active',admin);
     if(home){$('topEyebrow').textContent='CENTRAL DE VIAGENS / INÍCIO';$('topTitle').textContent='Portal de viagens';}
     if(request){$('topEyebrow').textContent='CENTRAL DE VIAGENS / SOLICITAÇÕES';$('topTitle').textContent='Solicitar viagem';}
+    if(lookup||details){$('topEyebrow').textContent='CENTRAL DE VIAGENS / ACOMPANHAMENTO';$('topTitle').textContent='Consultar solicitação';}
     if(admin){$('topEyebrow').textContent='Acesso administrativo';$('topTitle').textContent='Gestão de solicitações';renderAdmin();}
     window.scrollTo({top:0,behavior:'smooth'})
   }
@@ -441,6 +444,10 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
   document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setType(b.dataset.type));
   document.querySelectorAll('[data-open-service]').forEach(b=>b.onclick=()=>openService(b.dataset.openService));
   document.querySelector('[data-open-admin]').onclick=()=>show('admin');
+  document.querySelector('[data-open-lookup]').onclick=()=>show('lookup');
+  $('lookupBackHome').onclick=()=>show('home');
+  $('lookupBack').onclick=()=>show('lookup');
+  $('lookupDetailHome').onclick=()=>show('home');
   function validateDates(data,type=currentType){let a,b;if(type==='Avião'||type==='Rodoviário'){a=data.dataIda;b=data.dataVolta}else if(type==='Hospedagem'){a=data.checkin;b=data.checkout}else{a=data.retiradaData;b=data.devolucaoData}if(b&&a&&b<a)return 'A data final não pode ser anterior à data inicial.';if(type==='Hospedagem'&&a===b)return 'O check-out precisa ser depois do check-in.';if(type==='Locação'&&a===b&&data.retiradaHora&&data.devolucaoHora&&data.devolucaoHora<=data.retiradaHora)return 'O horário de devolução precisa ser posterior ao de retirada.';return ''}
   function uniqueCode(arr){let code;do{const hex=new Uint8Array(5);if(globalThis.crypto?.getRandomValues)crypto.getRandomValues(hex);else for(let i=0;i<5;i++)hex[i]=Math.floor(Math.random()*256);const suffix=Array.from(hex).map(v=>(v%36).toString(36)).join('').toUpperCase();code='VG-'+new Date().getFullYear()+'-'+suffix}while(arr.some(a=>a.codigo===code));return code}
   function openSuccessModal(code){$('successCode').textContent=code;$('successModal').hidden=false;document.body.style.overflow='hidden'}
