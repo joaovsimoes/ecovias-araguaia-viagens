@@ -22,19 +22,20 @@ jobs:
           from pathlib import Path
           html=Path('staging/index.html').read_text(encoding='utf-8')
           assert 'Demo@2026' not in html and 'localStorage' not in html
-          assert 'firebase-client.js' in html
+          assert '<script type="module" src="./firebase-client-20260920-v2.js"></script>' in html
           assert 'Ambiente de demonstração' not in html
           assert 'lookupPublicStatus(code)' in html
           assert 'lookupOwnRequest' not in html
           client=Path('staging/firebase-client.js').read_text(encoding='utf-8')
           assert "doc(db,'andamentos'" in client and 'writeBatch(db)' in client
+          assert 'lookupPublicStatus(code)' in client and 'syncPublicStatuses(requests)' in client
           assert Path('firestore.rules').read_text(encoding='utf-8') == Path('staging/firestore.rules').read_text(encoding='utf-8')
           Path('/tmp/ecovias-stage.js').write_text(html.split('<script>',1)[1].split('</script>',1)[0],encoding='utf-8')
           PY
           node --check /tmp/ecovias-stage.js
           node --check staging/firebase-client.js
           cp staging/index.html public/index.html
-          cp staging/firebase-client.js public/firebase-client.js
+          cp staging/firebase-client.js public/firebase-client-20260920-v2.js
       # As regras são aplicadas manualmente no Console antes deste fluxo.
       # A conta de publicação tem acesso ao Hosting, mas não ao Service Usage/Firestore.
       - name: Enviar somente ao canal temporário de testes
