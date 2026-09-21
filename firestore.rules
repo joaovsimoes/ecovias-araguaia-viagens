@@ -125,6 +125,7 @@ service cloud.firestore {
           || (request.auth.token.firebase.sign_in_provider == 'anonymous'
             && request.resource.data.status == 'Recebida'
             && request.resource.data.retorno == ''
+            && request.resource.data.alteracoes == ''
             && getAfter(/databases/$(database)/documents/solicitacoes/$(code)).data.ownerUid == request.auth.uid));
 
       // Somente administradores atualizam o andamento; a alteração da solicitação
