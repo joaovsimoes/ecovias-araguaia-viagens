@@ -489,9 +489,9 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
 
 
 
-  function renderLookupDetails(summary,full){
-    // A solicitação integral só é exibida para o titular da sessão ou administrador.
-    const source=full||summary;
+  function renderLookupDetails(summary){
+    // O resumo contém apenas os dados aprovados para consulta por código.
+    // Nunca acessar /solicitacoes aqui ou renderizar campos dinâmicos/administrativos.
     const status=String(summary.status||'Recebida');
     const stages=status==='Recusada'
       ?['Recebida','Em análise','Recusada']
@@ -502,35 +502,35 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
       const marker=index<current?'✓ ':index===current?'● ':'○ ';
       return '<li class="'+klass+'">'+marker+esc(stage)+'</li>';
     }).join('');
-    const lastUpdated=summary.atualizadoEm
-      ?esc(dt(summary.atualizadoEm))
-      :'Não informada';
+    const lastUpdated=summary.atualizadoEm?esc(dt(summary.atualizadoEm)):'Não informada';
     const retorno=String(summary.retorno||'').trim();
-    const publicMessage=retorno
-      ?'<p>'+esc(retorno)+'</p>'
-      :'<p>Não há orientações adicionais da equipe neste momento.</p>';
-    const defMap=new Map();
-    for(const def of BASE_FIELD_DEFS){
-      if(!def.service||def.service===full?.tipo)defMap.set(def.name,def.label);
-    }
-    for(const def of getFieldDefs()){
-      if(def.id&&def.label)defMap.set(def.id,def.label);
-    }
-    const fields=full?[...defMap].filter(([key])=>full[key]!==undefined&&full[key]!==null&&String(full[key]).trim()!=='').map(([key,label])=>{
-      const value=String(full[key]);
-      return '<div class="lookup-field"><b>'+esc(label)+'</b><span>'+esc(value)+'</span></div>';
-    }).join(''):'';
-    const privateSection=full
-      ?'<h3>Dados informados no formulário</h3><div class="lookup-readonly" aria-label="Dados do pedido, somente leitura">'+fields+'</div><p class="lookup-readonly-note">Consulta somente leitura. Para solicitar mudanças, entre em contato com a equipe responsável.</p>'
-      :'<p class="lookup-readonly-note">O código permite consultar a etapa e as orientações. Os dados pessoais e o formulário completo ficam disponíveis apenas para o solicitante no navegador em que enviou o pedido ou para a Administração.</p>';
-    const dateCreated=full?.criadoEm?'<p class="small">Enviado em '+esc(dt(full.criadoEm))+'</p>':'';
-    const kind=full?.tipo?'<p class="small">Serviço: '+esc(full.tipo)+'</p>':'';
+    const alteracoes=String(summary.alteracoes||'').trim();
+    const message=retorno?'<p>'+esc(retorno)+'</p>':'<p>Não há orientações adicionais da equipe neste momento.</p>';
+    const changes=alteracoes?'<p><strong>O que mudou:</strong> '+esc(alteracoes)+'</p>':'';
+    const fieldLabels={
+      origem:'Origem',destino:'Destino',dataIda:'Data da ida',dataVolta:'Data da volta',
+      periodoIda:'Período da ida',periodoVolta:'Período da volta',classe:'Classe / tipo de passagem',
+      bagagem:'Bagagem',cidade:'Cidade',hotelPreferido:'Hotel de preferência',
+      checkin:'Check-in',checkout:'Check-out',regiao:'Região de referência',
+      retiradaLocal:'Local de retirada',devolucaoLocal:'Local de devolução',
+      retiradaData:'Data da retirada',retiradaHora:'Horário de retirada',
+      devolucaoData:'Data da devolução',devolucaoHora:'Horário de devolução',
+      categoria:'Categoria do veículo',periodo:'Horário preferido'
+    };
+    const trip=summary.viagem&&typeof summary.viagem==='object'?summary.viagem:{};
+    const fields=Object.entries(fieldLabels).filter(([key])=>typeof trip[key]==='string'&&trip[key].trim())
+      .map(([key,label])=>'<div class="lookup-field"><b>'+esc(label)+'</b><span>'+esc(trip[key])+'</span></div>').join('');
+    const tripSection=fields
+      ?'<h3>Dados da viagem informados no formulário</h3><div class="lookup-readonly" aria-label="Dados da viagem, somente leitura">'+fields+'</div>'
+      :'<p class="lookup-readonly-note">Os dados da viagem ainda não estão disponíveis para esta solicitação. A etapa e as atualizações seguem disponíveis acima.</p>';
+    const kind=summary.servico?'<p class="small">Serviço: '+esc(summary.servico)+'</p>':'';
     $('lookupDetailContent').innerHTML=
       '<div class="record-top"><h2>Solicitação '+esc(summary.codigo)+'</h2><span class="status '+statusClass(status)+'">'+esc(status)+'</span></div>'
-      +dateCreated+kind
+      +kind
       +'<h3>Etapa atual do pedido</h3><ol class="lookup-stage" aria-label="Etapas de acompanhamento">'+steps+'</ol>'
-      +'<div class="lookup-updates"><strong>Atualizações e alterações da equipe</strong><p class="small">Última atualização: '+lastUpdated+'</p>'+publicMessage+'</div>'
-      +privateSection;
+      +'<div class="lookup-updates"><strong>Atualizações e alterações da equipe</strong><p class="small">Última atualização: '+lastUpdated+'</p>'+changes+message+'</div>'
+      +tripSection
+      +'<p class="lookup-readonly-note">Consulta somente leitura. Nome, contato, justificativa, centro de custo e demais informações pessoais ou internas não são exibidos. Para solicitar mudanças, entre em contato com a equipe responsável.</p>';
   }
 
   $('lookupForm').onsubmit=async e=>{
@@ -543,13 +543,8 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
         $('lookupResult').textContent='Não encontramos andamento para esse código. Confira o número ou procure a equipe responsável.';
         return;
       }
-      let full=null;
-      try{full=await api.lookupFullRequest(code)}
-      catch(error){
-        if(error?.code!=='permission-denied')console.warn('Não foi possível consultar o formulário integral',error);
-      }
       $('lookupResult').textContent='';
-      renderLookupDetails(summary,full);
+      renderLookupDetails(summary);
       show('lookupDetails');
     }catch(error){
       console.error('Falha na consulta do andamento',error);
