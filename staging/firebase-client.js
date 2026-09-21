@@ -107,11 +107,11 @@ window.firebasePortal={
     let phase='listar andamentos';
     try {
       const summaries=await getDocs(collection(db,'andamentos'));
-      const present=new Set(summaries.docs.map(item=>item.id));
+      const byCode=new Map(summaries.docs.map(snap=>[snap.id,snap.data()]));
       const pending=requests.filter(item=>{
-      const old=summaries.docs.find(doc=>doc.id===item.codigo)?.data();
-      return !old || !old.viagem || old.servico!==item.tipo;
-    });
+        const old=byCode.get(item.codigo);
+        return !old || !old.viagem || old.servico!==item.tipo;
+      });
       // Regras com getAfter/exists têm limite de leituras por lote.
       // Lotes pequenos evitam extrapolar o limite ao migrar pedidos antigos.
       for(let i=0;i<pending.length;i+=8){
