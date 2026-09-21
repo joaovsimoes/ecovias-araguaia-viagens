@@ -30,12 +30,30 @@ function aliasFor(username){
   // Internal Firebase Auth email alias. No real email mailbox and no email typed in UI.
   return normalized+'@ecovias-araguaia-viagens.invalid';
 }
-function summaryFor(entry) {
+// Campos explicitamente não pessoais. Não usar spread do pedido ou campos dinâmicos.
+const TRAVEL_FIELDS=["origem","destino","dataIda","dataVolta","periodoIda","periodoVolta","classe","bagagem","cidade","hotelPreferido","checkin","checkout","regiao","retiradaLocal","devolucaoLocal","retiradaData","retiradaHora","devolucaoData","devolucaoHora","categoria","periodo"];
+const TRAVEL_LABELS={"origem":"Origem","destino":"Destino","dataIda":"Data da ida","dataVolta":"Data da volta","periodoIda":"Período da ida","periodoVolta":"Período da volta","classe":"Classe ou passagem","bagagem":"Bagagem","cidade":"Cidade","hotelPreferido":"Hotel de preferência","checkin":"Check-in","checkout":"Check-out","regiao":"Região de referência","retiradaLocal":"Local de retirada","devolucaoLocal":"Local de devolução","retiradaData":"Data da retirada","retiradaHora":"Horário de retirada","devolucaoData":"Data da devolução","devolucaoHora":"Horário de devolução","categoria":"Categoria do veículo","periodo":"Horário preferido"};
+function travelFor(entry){
+  return Object.fromEntries(TRAVEL_FIELDS.map(key=>[key,String(entry[key]??'')]));
+}
+function summaryFor(entry,previous=null){
+  const viagem=travelFor(entry);
+  const changed=previous?.viagem
+    ?TRAVEL_FIELDS.filter(key=>String(previous.viagem[key]??'')!==viagem[key]).map(key=>TRAVEL_LABELS[key])
+    :[];
+  const alteration=changed.length
+    ?'Informações da viagem atualizadas: '+changed.join(', ')
+    :previous?.status&&previous.status!==entry.status
+      ?'Etapa atualizada para '+entry.status
+      :'';
   return {
-    codigo: entry.codigo,
-    status: entry.status,
-    retorno: String(entry.notaAdmin || ''),
-    atualizadoEm: entry.atualizadoEm || entry.criadoEm || new Date().toISOString()
+    codigo:entry.codigo,
+    status:entry.status,
+    retorno:String(entry.notaAdmin||''),
+    atualizadoEm:entry.atualizadoEm||entry.criadoEm||new Date().toISOString(),
+    servico:String(entry.tipo||''),
+    viagem,
+    alteracoes:alteration.slice(0,240)
   };
 }
 window.firebasePortal={
@@ -68,14 +86,6 @@ window.firebasePortal={
     const snap=await getDoc(doc(db,'andamentos',normalized));
     return snap.exists()?snap.data():null;
   },
-  async lookupFullRequest(code){
-    // Somente o solicitante original ou um administrador pode ler dados pessoais.
-    const user=await ensureIdentity();
-    const normalized=String(code).trim().toUpperCase();
-    if(!/^VG-[0-9]{4}-[A-Z0-9]{5}$/.test(normalized))return null;
-    const snap=await getDoc(doc(db,'solicitacoes',normalized));
-    return snap.exists()?snap.data():null;
-  },
   async listRequests(){
     await ensureIdentity();
     const snap=await getDocs(collection(db,'solicitacoes'));
@@ -84,9 +94,11 @@ window.firebasePortal={
   async updateRequest(code,item){
     await ensureIdentity();
     // Os dois documentos são gravados atomicamente; dados pessoais ficam na solicitação privada.
+    const previousSnapshot=await getDoc(doc(db,'andamentos',code));
+    const previous=previousSnapshot.exists()?previousSnapshot.data():null;
     const batch=writeBatch(db);
     batch.set(doc(db,'solicitacoes',code),{...item});
-    batch.set(doc(db,'andamentos',code),summaryFor(item));
+    batch.set(doc(db,'andamentos',code),summaryFor(item,previous));
     await batch.commit();
   },
   async syncPublicStatuses(requests){
@@ -96,7 +108,10 @@ window.firebasePortal={
     try {
       const summaries=await getDocs(collection(db,'andamentos'));
       const present=new Set(summaries.docs.map(item=>item.id));
-      const pending=requests.filter(item=>!present.has(item.codigo));
+      const pending=requests.filter(item=>{
+      const old=summaries.docs.find(doc=>doc.id===item.codigo)?.data();
+      return !old || !old.viagem || old.servico!==item.tipo;
+    });
       // Regras com getAfter/exists têm limite de leituras por lote.
       // Lotes pequenos evitam extrapolar o limite ao migrar pedidos antigos.
       for(let i=0;i<pending.length;i+=8){
