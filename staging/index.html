@@ -359,6 +359,13 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
   function applyStaticFieldConfigs(){const defs=BASE_FIELD_DEFS.filter(def=>def.scope==='static').map(applyManagedConfig);['travelForm','editForm'].forEach(formId=>{const form=$(formId);if(!form)return;defs.forEach(def=>{const input=form.querySelector(`[name="${def.name}"]`);if(input)updateFieldElement(input.closest('.field'),input,def);});});}
   function buildConfiguredServiceMarkup(type){const wrapper=document.createElement('div');wrapper.innerHTML=types[type].fields;BASE_FIELD_DEFS.filter(def=>def.service===type).map(applyManagedConfig).forEach(def=>{const input=wrapper.querySelector(`[name="${def.name}"]`);if(!input)return;const block=input.closest('.field');if(def.hidden){block?.remove();return}updateFieldElement(block,input,def);});return wrapper;}
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function diagnosticText(error){
+    const kind=String(error?.code||error?.name||'erro-desconhecido').slice(0,80);
+    const phase=error?.portalPhase?' Etapa: '+String(error.portalPhase).slice(0,70)+'.':'';
+    // O diagnóstico detalhado só aparece nesta versão de homologação.
+    const message=String(error?.message||error||'Sem detalhes disponíveis.').replace(/https?:\/\/\S+/g,'[endereço omitido]').slice(0,240);
+    return kind+phase+' Detalhes: '+message;
+  }
   const getAll=()=>cloudRequests;
   async function refreshRequests(){const api=await cloud();cloudRequests=await api.listRequests();renderAdmin();}
   function notify(msg){clearTimeout(toastTimer);$('toast').textContent=msg;$('toast').hidden=false;toastTimer=setTimeout(()=>$('toast').hidden=true,4000)}
@@ -438,12 +445,12 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
         'auth/network-request-failed':'Não foi possível conectar ao serviço de autenticação.',
         'unavailable':'O Firestore está temporariamente indisponível.'
       };
-      $('lookupResult').textContent=(details[code]||'Não foi possível consultar o pedido agora.')+' (código do erro: '+code+').';
+      $('lookupResult').textContent=(details[code]||'Não foi possível consultar o pedido agora.')+' Diagnóstico: '+diagnosticText(error);
     }
   };
   $('loginForm').onsubmit=async e=>{
     e.preventDefault();const button=e.currentTarget.querySelector('[type="submit"]');button.disabled=true;
-    try{const api=await cloud();await api.adminLogin($('adminUser').value.trim(),$('adminPass').value);adminAuthed=true;cloudRequests=await api.listRequests();let syncError=null;try{await api.syncPublicStatuses(cloudRequests)}catch(error){syncError=error;console.error('Falha na sincronização dos andamentos antigos',error)}$('adminPass').value='';renderAdmin();showAdminSection('requests');notify(syncError?'Acesso liberado, mas a sincronização dos andamentos falhou ('+String(syncError.code||'unknown')+').':'Acesso administrativo liberado.');}
+    try{const api=await cloud();await api.adminLogin($('adminUser').value.trim(),$('adminPass').value);adminAuthed=true;cloudRequests=await api.listRequests();let syncError=null;try{await api.syncPublicStatuses(cloudRequests)}catch(error){syncError=error;console.error('Falha na sincronização dos andamentos antigos',error)}$('adminPass').value='';renderAdmin();showAdminSection('requests');notify(syncError?'Acesso liberado. Sincronização falhou: '+diagnosticText(syncError):'Acesso administrativo liberado.');}
     catch(error){adminAuthed=false;cloudRequests=[];renderAdmin();notify(explain(error));}
     finally{button.disabled=false;}
   };
