@@ -68,6 +68,14 @@ window.firebasePortal={
     const snap=await getDoc(doc(db,'andamentos',normalized));
     return snap.exists()?snap.data():null;
   },
+  async lookupFullRequest(code){
+    // Somente o solicitante original ou um administrador pode ler dados pessoais.
+    const user=await ensureIdentity();
+    const normalized=String(code).trim().toUpperCase();
+    if(!/^VG-[0-9]{4}-[A-Z0-9]{5}$/.test(normalized))return null;
+    const snap=await getDoc(doc(db,'solicitacoes',normalized));
+    return snap.exists()?snap.data():null;
+  },
   async listRequests(){
     await ensureIdentity();
     const snap=await getDocs(collection(db,'solicitacoes'));
