@@ -21,7 +21,10 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           html=Path('staging/index.html').read_text(encoding='utf-8')
-          assert 'firebase-client.js' in html
+          assert '<script type="module" src="./firebase-client-20260920-v2.js"></script>' in html
+          client=Path('staging/firebase-client.js').read_text(encoding='utf-8')
+          assert 'lookupPublicStatus(code)' in client
+          assert 'syncPublicStatuses(requests)' in client
           assert 'Demo@2026' not in html
           assert 'localStorage' not in html
           Path('/tmp/ecovias-stage.js').write_text(html.split('<script>',1)[1].split('</script>',1)[0],encoding='utf-8')
