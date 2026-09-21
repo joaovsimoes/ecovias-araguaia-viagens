@@ -84,17 +84,26 @@ window.firebasePortal={
   async syncPublicStatuses(requests){
     await ensureIdentity();
     // Migra pedidos criados antes da consulta entre dispositivos.
-    const summaries=await getDocs(collection(db,'andamentos'));
-    const present=new Set(summaries.docs.map(item=>item.id));
-    const pending=requests.filter(item=>!present.has(item.codigo));
-    for(let i=0;i<pending.length;i+=400){
-      const batch=writeBatch(db);
-      for(const item of pending.slice(i,i+400)){
-        batch.set(doc(db,'andamentos',item.codigo),summaryFor(item));
+    let phase='listar andamentos';
+    try {
+      const summaries=await getDocs(collection(db,'andamentos'));
+      const present=new Set(summaries.docs.map(item=>item.id));
+      const pending=requests.filter(item=>!present.has(item.codigo));
+      // Regras com getAfter/exists têm limite de leituras por lote.
+      // Lotes pequenos evitam extrapolar o limite ao migrar pedidos antigos.
+      for(let i=0;i<pending.length;i+=8){
+        phase='gravar lote '+(Math.floor(i/8)+1);
+        const batch=writeBatch(db);
+        for(const item of pending.slice(i,i+8)){
+          batch.set(doc(db,'andamentos',item.codigo),summaryFor(item));
+        }
+        await batch.commit();
       }
-      await batch.commit();
+      return pending.length;
+    } catch(error) {
+      error.portalPhase=phase;
+      throw error;
     }
-    return pending.length;
   },
   async loadConfig(){
     await ensureIdentity();
