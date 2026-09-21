@@ -488,10 +488,69 @@ html{scroll-behavior:smooth}body{font-family:Inter,"Segoe UI",Arial,sans-serif;f
   function renderFieldManager(){ const host=$('customFieldList'); if(!host) return; const defs=[...BASE_FIELD_DEFS.map(def=>({...applyManagedConfig(def),kind:'base'})), ...getFieldDefs().map(def=>({...def,key:def.id,kind:'custom'}))]; host.innerHTML=defs.length?defs.map(def=>`<div class="custom-field-item ${def.hidden?'hidden-field':''}"><div><strong>${esc(def.label)}</strong><p>${esc(def.placeholder||'Sem texto de apoio.')}</p><div class="custom-field-meta"><span class="meta-chip">${esc(fieldTypeLabel(def.type))}</span>${def.service?`<span class="meta-chip">${esc(def.service)}</span>`:'<span class="meta-chip">Geral</span>'}${def.required?'<span class="meta-chip">Obrigatório</span>':''}${def.hidden?'<span class="meta-chip hidden-chip">Oculto</span>':''}${def.kind==='custom'&&def.type==='select'&&def.options?`<span class="meta-chip">${esc(parseFieldOptions(def.options).length)} opções</span>`:''}</div></div><div class="custom-field-actions"><button class="btn light" type="button" data-field-edit="${esc(def.key)}">Editar</button><button class="btn ${def.hidden?'light':'danger'}" type="button" data-field-delete="${esc(def.key)}">${def.hidden?'Restaurar':'Excluir'}</button></div></div>`).join(''):'<div class="empty-fields">Nenhum campo cadastrado no formulário.</div>' }
 
 
+
+  function renderLookupDetails(summary,full){
+    // A solicitação integral só é exibida para o titular da sessão ou administrador.
+    const source=full||summary;
+    const status=String(summary.status||'Recebida');
+    const stages=status==='Recusada'
+      ?['Recebida','Em análise','Recusada']
+      :['Recebida','Em análise','Aprovada','Concluída'];
+    const current=stages.indexOf(status);
+    const steps=stages.map((stage,index)=>{
+      const klass=index<current?'done':index===current?'current':'';
+      const marker=index<current?'✓ ':index===current?'● ':'○ ';
+      return '<li class="'+klass+'">'+marker+esc(stage)+'</li>';
+    }).join('');
+    const lastUpdated=summary.atualizadoEm
+      ?esc(dt(summary.atualizadoEm))
+      :'Não informada';
+    const retorno=String(summary.retorno||'').trim();
+    const publicMessage=retorno
+      ?'<p>'+esc(retorno)+'</p>'
+      :'<p>Não há orientações adicionais da equipe neste momento.</p>';
+    const defMap=new Map();
+    for(const def of BASE_FIELD_DEFS){
+      if(!def.service||def.service===full?.tipo)defMap.set(def.name,def.label);
+    }
+    for(const def of getFieldDefs()){
+      if(def.id&&def.label)defMap.set(def.id,def.label);
+    }
+    const fields=full?[...defMap].filter(([key])=>full[key]!==undefined&&full[key]!==null&&String(full[key]).trim()!=='').map(([key,label])=>{
+      const value=String(full[key]);
+      return '<div class="lookup-field"><b>'+esc(label)+'</b><span>'+esc(value)+'</span></div>';
+    }).join(''):'';
+    const privateSection=full
+      ?'<h3>Dados informados no formulário</h3><div class="lookup-readonly" aria-label="Dados do pedido, somente leitura">'+fields+'</div><p class="lookup-readonly-note">Consulta somente leitura. Para solicitar mudanças, entre em contato com a equipe responsável.</p>'
+      :'<p class="lookup-readonly-note">O código permite consultar a etapa e as orientações. Os dados pessoais e o formulário completo ficam disponíveis apenas para o solicitante no navegador em que enviou o pedido ou para a Administração.</p>';
+    const dateCreated=full?.criadoEm?'<p class="small">Enviado em '+esc(dt(full.criadoEm))+'</p>':'';
+    const kind=full?.tipo?'<p class="small">Serviço: '+esc(full.tipo)+'</p>':'';
+    $('lookupDetailContent').innerHTML=
+      '<div class="record-top"><h2>Solicitação '+esc(summary.codigo)+'</h2><span class="status '+statusClass(status)+'">'+esc(status)+'</span></div>'
+      +dateCreated+kind
+      +'<h3>Etapa atual do pedido</h3><ol class="lookup-stage" aria-label="Etapas de acompanhamento">'+steps+'</ol>'
+      +'<div class="lookup-updates"><strong>Atualizações e alterações da equipe</strong><p class="small">Última atualização: '+lastUpdated+'</p>'+publicMessage+'</div>'
+      +privateSection;
+  }
+
   $('lookupForm').onsubmit=async e=>{
     e.preventDefault();const code=$('lookupCode').value.trim().toUpperCase();
-    try{const api=await cloud();const item=await api.lookupPublicStatus(code);
-      $('lookupResult').innerHTML=item?`<div class="record"><div class="record-top"><strong>${esc(item.codigo)}</strong><span class="status ${statusClass(item.status)}">${esc(item.status)}</span></div><p>Atualizado em ${esc(dt(item.atualizadoEm))}</p>${item.retorno?`<p><b>Retorno da equipe:</b> ${esc(item.retorno)}</p>`:''}</div>`:'<div class="record">Não encontramos andamento para esse código. Confira o número ou procure a equipe responsável.</div>';
+    try{
+      $('lookupResult').textContent='Consultando solicitação...';
+      const api=await cloud();
+      const summary=await api.lookupPublicStatus(code);
+      if(!summary){
+        $('lookupResult').textContent='Não encontramos andamento para esse código. Confira o número ou procure a equipe responsável.';
+        return;
+      }
+      let full=null;
+      try{full=await api.lookupFullRequest(code)}
+      catch(error){
+        if(error?.code!=='permission-denied')console.warn('Não foi possível consultar o formulário integral',error);
+      }
+      $('lookupResult').textContent='';
+      renderLookupDetails(summary,full);
+      show('lookupDetails');
     }catch(error){
       console.error('Falha na consulta do andamento',error);
       const code=String(error?.code||'unknown');
